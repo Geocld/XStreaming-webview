@@ -157,7 +157,7 @@
 #rst {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Right_Stick_Click.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Right_Stick_Click.png) no-repeat;
 	background-size: 70px 70px;
 	position:absolute;
 	right: -70px;
@@ -172,7 +172,7 @@
 #lst {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Left_Stick_Click.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Left_Stick_Click.png) no-repeat;
 	background-size: 70px 70px;
 	position:absolute;
 	left: 50px;
@@ -182,7 +182,7 @@
 #lt {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_LT_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_LT_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 	margin-left: -50px;
 }
@@ -190,7 +190,7 @@
 #lt.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_LT_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_LT_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 	margin-left: -50px;
 }
@@ -198,35 +198,35 @@
 #lb {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_LB_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_LB_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #lb.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_LB_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_LB_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #rb {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_RB_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_RB_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #rb.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_RB_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_RB_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #rt {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_RT_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_RT_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 	margin-right: -50px;
 }
@@ -234,7 +234,7 @@
 #rt.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_RT_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_RT_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 	margin-right: -50px;
 }
@@ -242,7 +242,7 @@
 #x {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_X_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_X_Unpressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto 20px auto auto;
 }
@@ -250,7 +250,7 @@
 #x.pressed {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_X_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_X_Pressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto 20px auto auto;
 }
@@ -258,7 +258,7 @@
 #y {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_Y_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Y_Unpressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto;
 }
@@ -266,7 +266,7 @@
 #y.pressed {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_Y_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Y_Pressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto;
 }
@@ -274,7 +274,7 @@
 #a {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_A_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_A_Unpressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto;
 }
@@ -282,7 +282,7 @@
 #a.pressed {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_A_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_A_Pressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto;
 }
@@ -290,7 +290,7 @@
 #b {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_B_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_B_Unpressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto auto auto 20px;
 }
@@ -298,7 +298,7 @@
 #b.pressed {
 	width: 55px;
 	height: 55px;
-	background: url(./assets/Xbox360/360_B_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_B_Pressed.png) no-repeat;
 	background-size: 55px 55px;
 	margin: auto auto auto 20px;
 }
@@ -306,42 +306,42 @@
 #menu {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Start_Alt_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Start_Alt_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #menu.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Start_Alt_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Start_Alt_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #nexus {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Guide_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Guide_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #nexus.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Guide_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Guide_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #view {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Back_Alt_Unpressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Back_Alt_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
 #view.pressed {
 	width: 70px;
 	height: 70px;
-	background: url(./assets/Xbox360/360_Back_Alt_Pressed.png) no-repeat;
+	background: url(../../assets/Xbox360/360_Back_Alt_Pressed.png) no-repeat;
 	background-size: 70px 70px;
 }
 
