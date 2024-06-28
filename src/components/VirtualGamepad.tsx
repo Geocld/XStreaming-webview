@@ -2,6 +2,7 @@ import { useEffect, useCallback } from 'react'
 import PadButton from './PadButton'
 import DpadButton from './DpadButton'
 import JoystickController from 'joystick-controller'
+import GamepadIcon from './GamepadIcon'
 
 const Gamepad = ({ onPressButtonStart, onPressButtonEnd, onMoveJs }) => {
   
@@ -91,9 +92,16 @@ const Gamepad = ({ onPressButtonStart, onPressButtonEnd, onMoveJs }) => {
           </div>
           <div className="center-button">
               <div className="extras">
-                <PadButton btnId="view" btnName="View" onPressStart={() => handlePressButtonStart(0, 'View')} onPressEnd={() => handlePressButtonEnd(0, 'View')}/>
+                <div id="view">
+                  <GamepadIcon name="view" onPressStart={() => handlePressButtonStart(0, 'View')} onPressEnd={() => handlePressButtonEnd(0, 'View')}/>
+                </div>
+                
                 <PadButton btnId="nexus" btnName="Nexus" onPressStart={() => handlePressButtonStart(0, 'Nexus')} onPressEnd={() => handlePressButtonEnd(0, 'Nexus')}/>
-                <PadButton btnId="menu" btnName="Menu" onPressStart={() => handlePressButtonStart(0, 'Menu')} onPressEnd={() => handlePressButtonEnd(0, 'Menu')}/>
+                {/* <PadButton btnId="menu" btnName="Menu" onPressStart={() => handlePressButtonStart(0, 'Menu')} onPressEnd={() => handlePressButtonEnd(0, 'Menu')}/> */}
+                <div id="menu">
+                  <GamepadIcon name="menu" onPressStart={() => handlePressButtonStart(0, 'Menu')} onPressEnd={() => handlePressButtonEnd(0, 'Menu')}/>
+                </div>
+                
               </div>
           </div>
           <div className="right">

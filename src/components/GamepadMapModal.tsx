@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react"
+import { useTranslation } from 'react-i18next'
 // import { useGamepads } from 'react-gamepads';
 
 import A from '../assets/gamepad/a.svg'
@@ -43,6 +44,7 @@ const maping = {
 }
 
 const GamepadMapModal = ({ show, current, onConfirm, onCancel }) => {
+  const { t } = useTranslation()
   const [timer, setTimer] = useState(null)
   const [gamepads, setGamepads] = useState([])
   const [isConfirm, setIsConfirm] = useState(false)
@@ -72,10 +74,6 @@ const GamepadMapModal = ({ show, current, onConfirm, onCancel }) => {
     return () => clearInterval(timer);
   }, []);
 
-  const handleConfirm = () => {
-    onConfirm && onConfirm()
-  }
-
   const handleCancel = () => {
     onCancel && onCancel()
   }
@@ -84,17 +82,17 @@ const GamepadMapModal = ({ show, current, onConfirm, onCancel }) => {
     <Modal isOpen={show} hideCloseButton={true}>
       <ModalContent>
         <>
-          <ModalHeader className="flex flex-col gap-1">按键映射</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">{t('Key Maping')}</ModalHeader>
           <ModalBody className="map-modal-body">
-            <p>请按手柄上的按键，该按键将映射为: </p>
+            <p>{t('Please press the button on the controller, which will be mapped to:')} </p>
             <div className="icon-wrap">
               <img className="icon" src={maping[current]} alt="" />
             </div>
-            <p>映射成功后将自动关闭此弹窗</p>
+            <p>{t('After successful mapping, this pop-up will automatically close')}</p>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" fullWidth onPress={handleCancel}>
-              取消
+            <Button color="primary" fullWidth onClick={handleCancel}>
+              {t('Cancel')}
             </Button>
           </ModalFooter>
         </>

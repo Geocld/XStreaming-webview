@@ -1,7 +1,10 @@
 import React from 'react'
 import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button} from "@nextui-org/react"
+import { useTranslation } from 'react-i18next';
 
 const WarningModal = ({ show, onConfirm, onCancel }) => {
+  const { t } = useTranslation()
+
   const handleConfirm = () => {
     onConfirm && onConfirm()
   }
@@ -13,16 +16,16 @@ const WarningModal = ({ show, onConfirm, onCancel }) => {
     <Modal isOpen={show}>
       <ModalContent>
         <>
-          <ModalHeader className="flex flex-col gap-1">提示</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1">{t('Warning')}</ModalHeader>
           <ModalBody>
-            <p>Xbox似乎很久没有返回画面，请尝试重新连接Xbox或重启Xbox后重试。</p>
+            <p>{t('The terminal seems to have been without a screen for a long time. Please try reconnecting.')}</p>
           </ModalBody>
           <ModalFooter>
             <Button color="danger" variant="light" onPress={handleCancel}>
-              继续等待
+              {t('Keep waiting')}
             </Button>
             <Button color="primary" onPress={handleConfirm}>
-              退出
+              {t('Exit')}
             </Button>
           </ModalFooter>
         </>

@@ -26,8 +26,9 @@
 .performances {
 	position: fixed;
 	left: 0;
-	top: 20px;
+	top: 10px;
 	width: 180px;
+	padding: 5px 10px;
 	color: #fff;
 	font-size: 12px;
 	background-color: rgba(255, 255, 255, .2);
@@ -41,7 +42,7 @@
 	top: 0; 
 	height: 100%; 
 	width: 100%; 
-	opacity: .5;
+	opacity: .8;
 	z-index: 9;
 	touch-action: none;
 }
@@ -67,25 +68,17 @@
 .top-buttons>.left,
 .top-buttons>.right {
 	flex: 1;
+	padding-top: 3%;
 }
 
 .top-buttons>.left {
-	padding-left: 100px;
+	padding-left: 5%;
 }
 
 .top-buttons>.right {
 	text-align: right;
-	padding-right: 100px;
+	padding-right: 5%;
 }
-
-/* .top-buttons>.left,
-.top-buttons>.right {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-} */
 
 .bot-buttons>.left {
 	width: 100%;
@@ -97,6 +90,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
+	padding-bottom: 3%;
 }
 
 .center-button>.extras {
@@ -160,8 +154,8 @@
 	background: url(../../assets/Xbox360/360_Right_Stick_Click.png) no-repeat;
 	background-size: 70px 70px;
 	position:absolute;
-	right: -70px;
-	bottom: 0;
+	right: -40%;
+	bottom: 10%;
 }
 
 .lsb {
@@ -175,8 +169,8 @@
 	background: url(../../assets/Xbox360/360_Left_Stick_Click.png) no-repeat;
 	background-size: 70px 70px;
 	position:absolute;
-	left: 50px;
-	bottom: 20px;
+	left: 15%;
+	bottom: 10%;
 }
 
 #lt {
@@ -184,7 +178,6 @@
 	height: 70px;
 	background: url(../../assets/Xbox360/360_LT_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
-	margin-left: -50px;
 }
 
 #lt.pressed {
@@ -192,7 +185,6 @@
 	height: 70px;
 	background: url(../../assets/Xbox360/360_LT_Pressed.png) no-repeat;
 	background-size: 70px 70px;
-	margin-left: -50px;
 }
 
 #lb {
@@ -228,7 +220,6 @@
 	height: 70px;
 	background: url(../../assets/Xbox360/360_RT_Unpressed.png) no-repeat;
 	background-size: 70px 70px;
-	margin-right: -50px;
 }
 
 #rt.pressed {
@@ -236,7 +227,6 @@
 	height: 70px;
 	background: url(../../assets/Xbox360/360_RT_Pressed.png) no-repeat;
 	background-size: 70px 70px;
-	margin-right: -50px;
 }
 
 #x {
@@ -304,17 +294,7 @@
 }
 
 #menu {
-	width: 70px;
-	height: 70px;
-	background: url(../../assets/Xbox360/360_Start_Alt_Unpressed.png) no-repeat;
-	background-size: 70px 70px;
-}
-
-#menu.pressed {
-	width: 70px;
-	height: 70px;
-	background: url(../../assets/Xbox360/360_Start_Alt_Pressed.png) no-repeat;
-	background-size: 70px 70px;
+	padding-left: 30px;
 }
 
 #nexus {
@@ -332,24 +312,14 @@
 }
 
 #view {
-	width: 70px;
-	height: 70px;
-	background: url(../../assets/Xbox360/360_Back_Alt_Unpressed.png) no-repeat;
-	background-size: 70px 70px;
-}
-
-#view.pressed {
-	width: 70px;
-	height: 70px;
-	background: url(../../assets/Xbox360/360_Back_Alt_Pressed.png) no-repeat;
-	background-size: 70px 70px;
+	padding-right: 30px;
 }
 
 .dpad {
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
-	padding-bottom: 20px;
+	padding-bottom: 10%;
 }
 
 .d-pad {

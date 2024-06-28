@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import VConsole from 'vconsole'
 import VirtualGamepad from '../../components/VirtualGamepad'
-import xCloudPlayer from 'xbox-xcloud-player'
+import xStreamingPlayer from 'xstreaming-player'
 import {
   Modal, ModalContent, ModalBody,
   Listbox, ListboxItem
@@ -9,11 +9,14 @@ import {
 import Loading from '../../components/Loading'
 import PerfPanel from '../../components/PerfPanel'
 import WarningModal from '../../components/WarningModal'
+import { useTranslation } from 'react-i18next'
 import './Home.css'
 
-console.log('xCloudPlayer:', xCloudPlayer)
+console.log('xStreamingPlayer:', xStreamingPlayer)
 
 function Home() {
+  const { t } = useTranslation()
+
   const [timer, setTimer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
@@ -25,25 +28,11 @@ function Home() {
   const [isStoped, setIsStoped] = useState(false)
   const isStopedRef = useRef(isStoped)
   const [xPlayer, setxPlayer] = useState(undefined)
-  const [vconsole, setVconsole] = useState(undefined)
+  const vconsole = useRef(null)
+  const keepaliveInterval = useRef(null)
 
   useEffect(() => {
-    console.log('Starting xCloudPlayer...')
-
-    if (vconsole === undefined) {
-      setVconsole(new VConsole())
-    }
-
-    window.addEventListener("gamepadconnected", (e) => {
-      const gp = navigator.getGamepads()[e.gamepad.index];
-      console.log(
-        "Gamepad connected at index %d: %s. %d buttons, %d axes.",
-        gp.index,
-        gp.id,
-        gp.buttons.length,
-        gp.axes.length,
-      );
-    });
+    
 
     if (xPlayer !== undefined) {
       xPlayer.bind()
@@ -51,13 +40,24 @@ function Home() {
       if (!window.ReactNativeWebView) return
       // Set bitrate
       let streamSettings = window.ReactNativeWebView.injectedObjectJson()
+
+      let streamType = 'home'
+
       try {
-        streamSettings = JSON.parse(streamSettings).settings
+        const params = JSON.parse(streamSettings)
+        streamSettings = params.settings || {}
+        streamType = params.streamType || 'home'
       } catch (e) {
         streamSettings = {}
       }
 
+      if (streamSettings.debug && !vconsole.current) {
+        vconsole.current = new VConsole()
+      }
+
+      console.log('Starting xStreamingPlayer...')
       console.log('streamSettings:', streamSettings)
+      console.log('streamType:', streamType)
 
       // Set video codec profiles
       // xPlayer.setCodecPreferences('video/H264', { profiles: ['4d'] }) // 4d = high, 42e = mid, 420 = low
@@ -73,7 +73,14 @@ function Home() {
       // Set vibration
       xPlayer.setVibration(streamSettings.vibration)
       xPlayer.setVibrationMode(streamSettings.vibration_mode)
-      
+
+      // Set deadzone
+      xPlayer.setGamepadDeadZone(streamSettings.dead_zone)
+
+      // Set gamepad maping
+      if (streamSettings.gamepad_maping) {
+        xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
+      }
       
       if (streamSettings.streamType === 'xcloud') {
         if (streamSettings.xcloud_bitrate_mode === 'custom' && streamSettings.xcloud_bitrate !== 0) {
@@ -99,7 +106,8 @@ function Home() {
                 return
               }
               console.log('[startSessionEnd]:', message.data)
-              setLoadingText('获取主机配置成功，开始发起offer...')
+
+              setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
         
               xPlayer.createOffer().then((offer: any) => {
                 window.ReactNativeWebView.postMessage(
@@ -119,7 +127,8 @@ function Home() {
               console.log('[sendSDPOfferEnd]:', message.data)
               xPlayer.setRemoteOffer(message.data.sdp)
       
-              setLoadingText('远程offer获取成功...')
+              setLoadingText(`${t('Remote offer retrieved successfully...')}`)
+
               const ices = xPlayer.getIceCandidates()
               window.ReactNativeWebView.postMessage(
                 JSON.stringify({
@@ -134,7 +143,7 @@ function Home() {
               }
               console.log('[sendIceEnd]:', message.data)
 
-              setLoadingText('正在配置ICE，等待Xbox响应...')
+              setLoadingText(`${t('Configuring ICE, waiting for response...')}`)
               xPlayer.setIceCandidates(message.data)
       
               // Listen for connection change
@@ -142,22 +151,44 @@ function Home() {
                 console.log(':: Connection state updated:', event)
                 setConnectState(event.state)
                 
-                if(event.state === 'connected'){ // 成功连接
+                if(event.state === 'connected') {
                     // We are connected
                     console.log(':: We are connected!')
                     
-                    setLoadingText('连接成功')
+                    setLoadingText(`${t('Connected')}`)
                     setTimeout(() => {
                       setLoading(false)
+                      const videoElem = document.getElementsByTagName('video')[0]
+                      if (videoElem) {
+                        videoElem.style.backgroundColor = 'black'
+                      }
+
+                      // Start keepalive loop
+                      keepaliveInterval.current = setInterval(() => {
+                        window.ReactNativeWebView.postMessage(
+                          JSON.stringify({
+                            type: 'sendKeepalive',
+                            message: ''
+                          })
+                        );
+                      }, 30 * 1000)
                     }, 500)
       
-                } else if(event.state === 'closing'){ // 连接关闭中
+                } else if(event.state === 'closing') {
                     // Connection is closing
                     console.log(':: We are going to disconnect!')
       
                 } else if(event.state === 'closed'){
                     // Connection has been closed. We have to cleanup here
                     console.log(':: We are disconnected!')
+                    setTimeout(() => {
+                      window.ReactNativeWebView.postMessage(
+                        JSON.stringify({
+                          type: 'streamingClosed',
+                          message: ''
+                        })
+                      );
+                    }, 10 * 1000)
                 }
               })
             }
@@ -170,17 +201,16 @@ function Home() {
         }
       })
 
-      // 通知RN开始session, postMessage必须是string
       // startSession
       if (window.ReactNativeWebView) {
         setLoading(true)
-        setLoadingText('正在连接Xbox...')
+        setLoadingText(`${t('Connecting...')}`)
         window.ReactNativeWebView.postMessage(JSON.stringify({
           type: 'xcloudReady'
         }));
       }
     } else {
-      setxPlayer(new xCloudPlayer('videoHolder', {
+      setxPlayer(new xStreamingPlayer('videoHolder', {
         ui_systemui: [],
         ui_touchenabled: false,
         input_legacykeyboard: false,
@@ -191,11 +221,14 @@ function Home() {
       if(xPlayer !== undefined){
           xPlayer.close()
       }
-      if (vconsole !== undefined) {
-        vconsole.destroy()
+      if (vconsole.current) {
+        vconsole.current.destroy()
+      }
+      if (keepaliveInterval.current) {
+        clearInterval(keepaliveInterval.current)
       }
     }
-  }, [xPlayer, vconsole])
+  }, [xPlayer, t])
 
   if (!timer) {
     const _timer = setTimeout(() => {
@@ -212,15 +245,15 @@ function Home() {
 
   document.addEventListener('message', (event: any) => {
     const data = event.data
-    if (data.type === 'action') { // 交互相关
+    if (data.type === 'action') { // interactve
       const message = data.message
-      if (message.single === 'pageBack') { // 用户触发后退操作
+      if (message.single === 'pageBack') { // back action
         setShowModal(true)
       }
     }
   })
 
-  // 操作按钮下压
+  // Button press action
   const handlePressButtonStart = (value, name) => {
     xPlayer.getChannelProcessor('input').pressButtonStart(value, name)
     window.ReactNativeWebView && window.ReactNativeWebView.postMessage(
@@ -260,7 +293,7 @@ function Home() {
       setShowPerformance(false)
       setShowVirtualGamepad(false)
       setLoading(true)
-      setLoadingText('正在断开连接...')
+      setLoadingText(`${t('Disconnecting...')}`)
       setIsStoped(true)
       xPlayer && xPlayer.close()
 
@@ -304,21 +337,19 @@ function Home() {
                 onAction={(key) => handleModalAction(key)}
               >
                 {connectState === "connected" && (
-                  <ListboxItem key="performance">显示/隐藏性能信息</ListboxItem>
+                  <ListboxItem key="performance">{t('Toggle Performance')}</ListboxItem>
                 )}
                 {connectState === "connected" && (
-                  <ListboxItem key="gamepad">显示/隐藏虚拟手柄</ListboxItem>
+                  <ListboxItem key="gamepad">{t('Toggle Virtual Gamepad')}</ListboxItem>
                 )}
-                <ListboxItem key="exit">断开连接</ListboxItem>
-                <ListboxItem key="cancel">取消</ListboxItem>
+                <ListboxItem key="exit">{t('Disconnect')}</ListboxItem>
+                <ListboxItem key="cancel">{t('Cancel')}</ListboxItem>
               </Listbox>
             </ModalBody>
           </>
         </ModalContent>
       </Modal>
-      <div id="videoHolder">
-        {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted playsInline style={{ touchAction: 'none', width: '100%', height: '100%', objectFit: 'contain',  }}></video> */}
-      </div>
+      <div id="videoHolder"></div>
 
       {connectState === "connected" && showVirtualGamepad && (
         <div
