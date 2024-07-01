@@ -129,11 +129,20 @@ function Home() {
       
               setLoadingText(`${t('Remote offer retrieved successfully...')}`)
 
-              const ices = xPlayer.getIceCandidates()
+              // Gather candidates
+              const iceCandidates = xPlayer.getIceCandidates()
+              const candidates = []
+              for(const candidate in iceCandidates) {
+                candidates.push({
+                  candidate: iceCandidates[candidate].candidate,
+                  sdpMLineIndex: iceCandidates[candidate].sdpMLineIndex,
+                  sdpMid: iceCandidates[candidate].sdpMid,
+                })
+              }
               window.ReactNativeWebView.postMessage(
                 JSON.stringify({
                   type: 'sendICEReady',
-                  message: ices
+                  message: candidates
                 })
               );
             }
