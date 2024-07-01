@@ -13,7 +13,7 @@ const WarningModal = ({ show, onConfirm, onCancel }) => {
     onCancel && onCancel()
   }
   return (
-    <Modal isOpen={show}>
+    <Modal isOpen={show} hideCloseButton={true}>
       <ModalContent>
         <>
           <ModalHeader className="flex flex-col gap-1">{t('Warning')}</ModalHeader>

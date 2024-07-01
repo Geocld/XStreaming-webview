@@ -23,6 +23,11 @@ export default {
     'Warning': '提示',
     'The terminal seems to have been without a screen for a long time. Please try reconnecting.': '终端似乎很久没有返回画面，请尝试重新连接。',
     'Keep waiting': '继续等待',
-    'Exit': '退出'
+    'Exit': '退出',
+    'Resolution': '分辨率',
+    'Round Trip Time': '延迟',
+    'FPS': '帧数',
+    'Frames Dropped': '丢帧',
+    'Packets Lost': '丢包',
   }
 }

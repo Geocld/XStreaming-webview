@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next';
 
 const PerfPanel = ({ xPlayer, connectState }) => {
+  const { t } = useTranslation()
   const [performance, setPerformance] = useState(null)
 
   
@@ -27,13 +29,13 @@ const PerfPanel = ({ xPlayer, connectState }) => {
       {
         performance && (
           <div className='performances'>
-            <div>Resolution: {performance.resolution || ''}</div>
-            <div>Round Trip Time: {performance.rtt || ''}</div>
-            <div>FPS: {performance.fps || ''}</div>
-            <div>Frames Dropped: {performance.fl || ''}</div>
-            <div>Packets Lost: {performance.pl || ''}</div>
-            <div>Bitrate: {performance.br || ''}</div>
-            <div>Decode time: {performance.decode || ''}</div>
+            <div>{t('Resolution')}: {performance.resolution || ''}</div>
+            <div>{t('Round Trip Time')}: {performance.rtt || ''}</div>
+            <div>{t('FPS')}: {performance.fps || ''}</div>
+            <div>{t('Frames Dropped')}: {performance.fl || ''}</div>
+            <div>{t('Packets Lost')}: {performance.pl || ''}</div>
+            {/* <div>Bitrate: {performance.br || ''}</div>
+            <div>Decode time: {performance.decode || ''}</div> */}
           </div>
         )
       }

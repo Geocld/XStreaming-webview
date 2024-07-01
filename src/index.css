@@ -9,3 +9,7 @@ body {
   position: fixed;
   overflow-y: hidden;
 }
+
+*:focus {
+  outline: 'none'
+}
