@@ -139,6 +139,7 @@ function Home() {
                   sdpMid: iceCandidates[candidate].sdpMid,
                 })
               }
+              setLoadingText(`${t('Ready to send ICE...')}`)
               window.ReactNativeWebView.postMessage(
                 JSON.stringify({
                   type: 'sendICEReady',
@@ -150,10 +151,9 @@ function Home() {
               if (isStopedRef.current) {
                 return
               }
-              console.log('[sendIceEnd]:', message.data)
-
-              setLoadingText(`${t('Configuring ICE, waiting for response...')}`)
-              xPlayer.setIceCandidates(message.data)
+              const candidates = message.data
+              setLoadingText(`${t('Exchange ICE successfully...')}`)
+              xPlayer.setIceCandidates(candidates)
       
               // Listen for connection change
               xPlayer.getEventBus().on('connectionstate', (event: any) => {

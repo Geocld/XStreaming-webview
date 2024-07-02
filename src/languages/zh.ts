@@ -3,6 +3,8 @@ export default {
     'xCloud': '云游戏',
     'Configuration obtained successfully, initiating offer...': '获取配置成功，开始发起offer...',
     'Remote offer retrieved successfully...': '远程offer获取成功...',
+    'Ready to send ICE...': '准备发送ICE...',
+    'Exchange ICE successfully...': 'ICE交换成功, 正在建立连接...',
     'Configuring ICE, waiting for response...': '正在配置ICE，正在等待响应...',
     'Connected': '连接成功',
     'Connecting...': '正在连接...',

@@ -3,6 +3,8 @@ export default {
     'xCloud': 'xCloud',
     'Configuration obtained successfully, initiating offer...': 'Configuration obtained successfully, initiating offer...',
     'Remote offer retrieved successfully...': 'Remote offer retrieved successfully...',
+    'Ready to send ICE...': 'Ready to send ICE...',
+    'Exchange ICE successfully...': 'Exchange ICE successfully...',
     'Configuring ICE, waiting for response...': 'Configuring ICE, waiting for response...',
     'Connected': 'Connected',
     'Connecting...': 'Connecting...',
