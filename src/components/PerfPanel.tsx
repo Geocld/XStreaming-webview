@@ -14,7 +14,7 @@ const PerfPanel = ({ xPlayer, connectState }) => {
           xPlayer.getStreamState && xPlayer.getStreamState().then(perf => {
           setPerformance(perf)
         })
-      }, 2000)
+      }, 1000)
     }
 
     return () => {
@@ -34,8 +34,8 @@ const PerfPanel = ({ xPlayer, connectState }) => {
             <div>{t('FPS')}: {performance.fps || ''}</div>
             <div>{t('Frames Dropped')}: {performance.fl || ''}</div>
             <div>{t('Packets Lost')}: {performance.pl || ''}</div>
-            {/* <div>Bitrate: {performance.br || ''}</div>
-            <div>Decode time: {performance.decode || ''}</div> */}
+            <div>{t('Bitrate')}: {performance.br || ''}</div>
+            <div>{t('Decode time')}: {performance.decode || ''}</div>
           </div>
         )
       }

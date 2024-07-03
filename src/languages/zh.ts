@@ -31,5 +31,7 @@ export default {
     'FPS': '帧数',
     'Frames Dropped': '丢帧',
     'Packets Lost': '丢包',
+    'Bitrate': '码率',
+    'Decode time': '解码时间'
   }
 }
