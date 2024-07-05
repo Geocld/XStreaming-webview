@@ -276,7 +276,7 @@ function Home() {
   const handlePressButtonEnd = (value, name) => {
     setTimeout(() => {
       xPlayer.getChannelProcessor('input').pressButtonEnd(value, name)
-    }, 100)
+    }, 50)
   }
 
   const handleMoveJs = (id, data) => {

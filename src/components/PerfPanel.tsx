@@ -35,7 +35,7 @@ const PerfPanel = ({ xPlayer, connectState }) => {
             <div>{t('Frames Dropped')}: {performance.fl || ''}</div>
             <div>{t('Packets Lost')}: {performance.pl || ''}</div>
             <div>{t('Bitrate')}: {performance.br || ''}</div>
-            <div>{t('Decode time')}: {performance.decode || ''}</div>
+            {/* <div>{t('Decode time')}: {performance.decode || ''}</div> */}
           </div>
         )
       }
