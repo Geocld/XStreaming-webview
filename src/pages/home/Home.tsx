@@ -70,6 +70,9 @@ function Home() {
         }
       }
 
+      // Set gamepad kernal
+      xPlayer.setGamepadKernal(streamSettings.gamepad_kernal)
+
       // Set vibration
       xPlayer.setVibration(streamSettings.vibration)
       xPlayer.setVibrationMode(streamSettings.vibration_mode)
@@ -96,10 +99,10 @@ function Home() {
       
 
       document.addEventListener('message', (event: any) => {
-        console.log('web receive RN message:', event.data)
         try {
           const data = event.data
           if (data.type === 'stream') {
+            console.log('web receive RN message:', event.data)
             const message = data.message
             if (message.single === 'startSessionEnd') {
               if (isStopedRef.current) {
@@ -203,6 +206,12 @@ function Home() {
             }
             if (message.single === 'disconnect') {
               xPlayer.close()
+            }
+          }
+          if (data.type === 'gamepad') {
+            const message = data.message
+            if (message.single === 'gpState') {
+              globalThis.gpState = message.data
             }
           }
         } catch (e) {
