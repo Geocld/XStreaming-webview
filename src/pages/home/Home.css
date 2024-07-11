@@ -530,3 +530,36 @@
 .d-pad button.down-left.hover {
 	background: linear-gradient(-135deg, #404040 0%, #5f5f5f 50%);
 }
+
+/* 横屏样式 */
+@media screen and (max-width: 680px) and (orientation: landscape) {
+	.lsb {
+		width: 100px;
+	}
+	.rsb {
+		width: 100px;
+	}
+	.d-pad {
+		width: 90px;
+		height: 90px;
+	}
+	#view {
+		padding-right: 5px;
+	}
+	#menu {
+		padding-left: 5px;
+	}
+	#rst {
+		bottom: 5%;
+	}
+	#lt, #rt, #lb, #rb, #rst, #lst, #nexus, #view, #menu {
+		width: 50px;
+		height: 50px;
+		background-size: 50px 50px;
+	}
+	#a, #b, #x, #y {
+		width: 40px;
+		height: 40px;
+		background-size: 40px 40px;
+	}
+}

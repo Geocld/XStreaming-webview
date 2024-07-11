@@ -20,6 +20,7 @@ function Home() {
   const [timer, setTimer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
+  const [opacity, setOpacity] = useState(0.6)
   const [showModal, setShowModal] = useState(false)
   const [connectState, setConnectState] = useState('')
   const [showVirtualGamepad, setShowVirtualGamepad] = useState(false)
@@ -83,6 +84,10 @@ function Home() {
       // Set gamepad maping
       if (streamSettings.gamepad_maping) {
         xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
+      }
+
+      if (streamSettings.virtual_gamepad_opacity) {
+        setOpacity(streamSettings.virtual_gamepad_opacity)
       }
       
       if (streamSettings.streamType === 'xcloud') {
@@ -369,9 +374,10 @@ function Home() {
       </Modal>
       <div id="videoHolder"></div>
 
-      {connectState === "connected" && showVirtualGamepad && (
+      {(connectState === "connected" && showVirtualGamepad) && (
         <div
           className="virtual-gamepad"
+          style={{opacity}}
           onTouchStart={(e) => {
             e.stopPropagation();
           }}
