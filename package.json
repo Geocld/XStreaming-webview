@@ -24,7 +24,7 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "uuid": "^9.0.1",
     "vconsole": "^3.15.1",
-    "xstreaming-player": "0.1.4"
+    "xstreaming-player": "0.1.5"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
