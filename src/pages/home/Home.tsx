@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import VConsole from 'vconsole'
-import VirtualGamepad from '../../components/VirtualGamepad'
 import xStreamingPlayer from 'xstreaming-player'
 import Loading from '../../components/Loading'
 import PerfPanel from '../../components/PerfPanel'
@@ -16,7 +15,6 @@ function Home() {
   const [timer, setTimer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
-  const [opacity, setOpacity] = useState(0.6)
   const [connectState, setConnectState] = useState('')
   const [showVirtualGamepad, setShowVirtualGamepad] = useState(false)
   const [showPerformance, setShowPerformance] = useState(false)
@@ -79,10 +77,6 @@ function Home() {
       // Set gamepad maping
       if (streamSettings.gamepad_maping) {
         xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
-      }
-
-      if (streamSettings.virtual_gamepad_opacity) {
-        setOpacity(streamSettings.virtual_gamepad_opacity)
       }
       
       if (streamSettings.streamType === 'xcloud') {
@@ -282,35 +276,6 @@ function Home() {
     }
   })
 
-  // Button press action
-  const handlePressButtonStart = (value, name) => {
-    xPlayer.getChannelProcessor('input').pressButtonStart(value, name)
-    window.ReactNativeWebView && window.ReactNativeWebView.postMessage(
-      JSON.stringify({
-        type: 'pressButton',
-        message: {}
-      })
-    );
-  }
-
-  const handlePressButtonEnd = (value, name) => {
-    setTimeout(() => {
-      xPlayer.getChannelProcessor('input').pressButtonEnd(value, name)
-    }, 50)
-  }
-
-  const handleMoveJs = (id, data) => {
-    if (xPlayer && xPlayer.getChannelProcessor && xPlayer.getChannelProcessor('input')) {
-      if (id === 'lsb') {
-        // console.log('handleMoveJs left:', id, data)
-        xPlayer.getChannelProcessor('input').moveLeftStick(0, data.leveledX / 10, data.leveledY / 10)
-      } else if (id === 'rsb') {
-        // console.log('handleMoveJs right:', id, data)
-        xPlayer.getChannelProcessor('input').moveRightStick(0, data.leveledX / 10, data.leveledY / 10)
-      }
-    }
-  }
-
   const handleModalAction = (key) => {
     if (key === 'performance') {
       setShowPerformance(!showPerformance)
@@ -379,28 +344,6 @@ function Home() {
       </Modal> */}
 
       <div id="videoHolder"></div>
-
-      {(connectState === "connected" && showVirtualGamepad) && (
-        <div
-          className="virtual-gamepad"
-          style={{opacity}}
-          onTouchStart={(e) => {
-            e.stopPropagation();
-          }}
-          onTouchEnd={(e) => {
-            e.stopPropagation();
-          }}
-          onTouchMove={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <VirtualGamepad
-            onPressButtonStart={handlePressButtonStart}
-            onPressButtonEnd={handlePressButtonEnd}
-            onMoveJs={handleMoveJs}
-          />
-        </div>
-      )}
     </>
   );
 }

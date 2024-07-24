@@ -24,6 +24,7 @@
     "rollup-plugin-node-polyfills": "^0.2.1",
     "uuid": "^9.0.1",
     "vconsole": "^3.15.1",
+    "webrtc-adapter": "^9.0.1",
     "xstreaming-player": "0.1.6"
   },
   "devDependencies": {

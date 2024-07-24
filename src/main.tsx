@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from "next-themes";
-
+import 'webrtc-adapter';
 import Home from './pages/home/Home.tsx'
 import Map from './pages/map/Map.tsx'
 import Debug from './pages/debug/Debug.tsx'
