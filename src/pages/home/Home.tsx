@@ -2,10 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import VConsole from 'vconsole'
 import VirtualGamepad from '../../components/VirtualGamepad'
 import xStreamingPlayer from 'xstreaming-player'
-import {
-  Modal, ModalContent, ModalBody,
-  Listbox, ListboxItem
-} from "@nextui-org/react"
 import Loading from '../../components/Loading'
 import PerfPanel from '../../components/PerfPanel'
 import WarningModal from '../../components/WarningModal'
@@ -21,7 +17,6 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
   const [opacity, setOpacity] = useState(0.6)
-  const [showModal, setShowModal] = useState(false)
   const [connectState, setConnectState] = useState('')
   const [showVirtualGamepad, setShowVirtualGamepad] = useState(false)
   const [showPerformance, setShowPerformance] = useState(false)
@@ -210,7 +205,18 @@ function Home() {
               })
             }
             if (message.single === 'disconnect') {
-              xPlayer.close()
+              setLoading(true)
+              setLoadingText(`${t('Disconnecting...')}`)
+              setIsStoped(true)
+              xPlayer && xPlayer.close()
+
+              setTimeout(() => {
+                if (window.ReactNativeWebView) {
+                  window.ReactNativeWebView.postMessage(JSON.stringify({
+                    type: 'exit'
+                  }));
+                }
+              }, 1000)
             }
           }
           if (data.type === 'gamepad') {
@@ -271,7 +277,7 @@ function Home() {
     if (data.type === 'action') { // interactve
       const message = data.message
       if (message.single === 'pageBack') { // back action
-        setShowModal(true)
+        // setShowModal(true)
       }
     }
   })
@@ -329,7 +335,6 @@ function Home() {
       }, 1000)
       
     }
-    setShowModal(false)
   }
 
   return (
@@ -351,7 +356,7 @@ function Home() {
         }}
       />
 
-      <Modal isOpen={showModal} size={"xs"} hideCloseButton={true}>
+      {/* <Modal isOpen={showModal} size={"xs"} hideCloseButton={true}>
         <ModalContent>
           <>
             <ModalBody>
@@ -371,7 +376,8 @@ function Home() {
             </ModalBody>
           </>
         </ModalContent>
-      </Modal>
+      </Modal> */}
+
       <div id="videoHolder"></div>
 
       {(connectState === "connected" && showVirtualGamepad) && (
