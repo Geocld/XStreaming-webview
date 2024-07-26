@@ -94,130 +94,129 @@ function Home() {
 
       document.addEventListener('message', (event: any) => {
         try {
-          const data = event.data
-          if (data.type === 'stream') {
-            console.log('web receive RN message:', event.data)
-            const message = data.message
-            if (message.single === 'startSessionEnd') {
-              if (isStopedRef.current) {
-                return
-              }
-              console.log('[startSessionEnd]:', message.data)
+          const data = JSON.parse(event.data);
+          const { type, value } = data;
 
-              setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
-        
-              xPlayer.createOffer().then((offer: any) => {
-                window.ReactNativeWebView.postMessage(
-                    JSON.stringify({
-                      type: 'xcloudOfferReady',
-                      message: offer
-                    })
-                );
-              }).catch(e => {
-                console.log('createOffer error:', e)
+          if (type === 'startSessionEnd') {
+            if (isStopedRef.current) {
+              return
+            }
+            console.log('[startSessionEnd]:', value)
+
+            setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
+      
+            xPlayer.createOffer().then((offer: any) => {
+              window.ReactNativeWebView.postMessage(
+                  JSON.stringify({
+                    type: 'xcloudOfferReady',
+                    message: offer
+                  })
+              );
+            }).catch(e => {
+              console.log('createOffer error:', e)
+            })
+          }
+
+          if (type === 'sendSDPOfferEnd') {
+            if (isStopedRef.current) {
+              return
+            }
+            console.log('[sendSDPOfferEnd]:', value)
+            xPlayer.setRemoteOffer(value.sdp)
+    
+            setLoadingText(`${t('Remote offer retrieved successfully...')}`)
+
+            // Gather candidates
+            const iceCandidates = xPlayer.getIceCandidates()
+            const candidates = []
+            for(const candidate in iceCandidates) {
+              candidates.push({
+                candidate: iceCandidates[candidate].candidate,
+                sdpMLineIndex: iceCandidates[candidate].sdpMLineIndex,
+                sdpMid: iceCandidates[candidate].sdpMid,
               })
             }
-            if (message.single === 'sendSDPOfferEnd') {
-              if (isStopedRef.current) {
-                return
-              }
-              console.log('[sendSDPOfferEnd]:', message.data)
-              xPlayer.setRemoteOffer(message.data.sdp)
-      
-              setLoadingText(`${t('Remote offer retrieved successfully...')}`)
+            setLoadingText(`${t('Ready to send ICE...')}`)
+            window.ReactNativeWebView.postMessage(
+              JSON.stringify({
+                type: 'sendICEReady',
+                message: candidates
+              })
+            );
+          }
 
-              // Gather candidates
-              const iceCandidates = xPlayer.getIceCandidates()
-              const candidates = []
-              for(const candidate in iceCandidates) {
-                candidates.push({
-                  candidate: iceCandidates[candidate].candidate,
-                  sdpMLineIndex: iceCandidates[candidate].sdpMLineIndex,
-                  sdpMid: iceCandidates[candidate].sdpMid,
-                })
-              }
-              setLoadingText(`${t('Ready to send ICE...')}`)
-              window.ReactNativeWebView.postMessage(
-                JSON.stringify({
-                  type: 'sendICEReady',
-                  message: candidates
-                })
-              );
+          if (type === 'sendIceEnd') {
+            if (isStopedRef.current) {
+              return
             }
-            if (message.single === 'sendIceEnd') {
-              if (isStopedRef.current) {
-                return
-              }
-              const candidates = message.data
-              setLoadingText(`${t('Exchange ICE successfully...')}`)
-              xPlayer.setIceCandidates(candidates)
-      
-              // Listen for connection change
-              xPlayer.getEventBus().on('connectionstate', (event: any) => {
-                console.log(':: Connection state updated:', event)
-                setConnectState(event.state)
-                
-                if(event.state === 'connected') {
-                    // We are connected
-                    console.log(':: We are connected!')
-                    
-                    setLoadingText(`${t('Connected')}`)
-                    setTimeout(() => {
-                      setLoading(false)
-                      const videoElem = document.getElementsByTagName('video')[0]
-                      if (videoElem) {
-                        videoElem.style.backgroundColor = 'black'
-                      }
+            const candidates = value
+            setLoadingText(`${t('Exchange ICE successfully...')}`)
+            xPlayer.setIceCandidates(candidates)
+    
+            // Listen for connection change
+            xPlayer.getEventBus().on('connectionstate', (event: any) => {
+              console.log(':: Connection state updated:', event)
+              setConnectState(event.state)
+              
+              if(event.state === 'connected') {
+                  // We are connected
+                  console.log(':: We are connected!')
+                  
+                  setLoadingText(`${t('Connected')}`)
+                  setTimeout(() => {
+                    setLoading(false)
+                    const videoElem = document.getElementsByTagName('video')[0]
+                    if (videoElem) {
+                      videoElem.style.backgroundColor = 'black'
+                    }
 
-                      // Start keepalive loop
-                      keepaliveInterval.current = setInterval(() => {
-                        window.ReactNativeWebView.postMessage(
-                          JSON.stringify({
-                            type: 'sendKeepalive',
-                            message: ''
-                          })
-                        );
-                      }, 30 * 1000)
-                    }, 500)
-      
-                } else if(event.state === 'closing') {
-                    // Connection is closing
-                    console.log(':: We are going to disconnect!')
-      
-                } else if(event.state === 'closed'){
-                    // Connection has been closed. We have to cleanup here
-                    console.log(':: We are disconnected!')
-                    setTimeout(() => {
+                    // Start keepalive loop
+                    keepaliveInterval.current = setInterval(() => {
                       window.ReactNativeWebView.postMessage(
                         JSON.stringify({
-                          type: 'streamingClosed',
+                          type: 'sendKeepalive',
                           message: ''
                         })
                       );
-                    }, 10 * 1000)
-                }
-              })
-            }
-            if (message.single === 'disconnect') {
-              setLoading(true)
-              setLoadingText(`${t('Disconnecting...')}`)
-              setIsStoped(true)
-              xPlayer && xPlayer.close()
-
-              setTimeout(() => {
-                if (window.ReactNativeWebView) {
-                  window.ReactNativeWebView.postMessage(JSON.stringify({
-                    type: 'exit'
-                  }));
-                }
-              }, 1000)
-            }
+                    }, 30 * 1000)
+                  }, 500)
+    
+              } else if(event.state === 'closing') {
+                  // Connection is closing
+                  console.log(':: We are going to disconnect!')
+    
+              } else if(event.state === 'closed'){
+                  // Connection has been closed. We have to cleanup here
+                  console.log(':: We are disconnected!')
+                  setTimeout(() => {
+                    window.ReactNativeWebView.postMessage(
+                      JSON.stringify({
+                        type: 'streamingClosed',
+                        message: ''
+                      })
+                    );
+                  }, 10 * 1000)
+              }
+            })
           }
-          if (data.type === 'gamepad') {
-            const message = data.message
-            if (message.single === 'gpState') {
-              globalThis.gpState = message.data
-            }
+
+          if (type === 'disconnect') {
+            setLoading(true)
+            setLoadingText(`${t('Disconnecting...')}`)
+            setIsStoped(true)
+            xPlayer && xPlayer.close()
+
+            setTimeout(() => {
+              if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(JSON.stringify({
+                  type: 'exit'
+                }));
+              }
+            }, 1000)
+          }
+
+          if (type === 'gamepad') {
+            globalThis.gpState = value
           }
         } catch (e) {
           console.log('error:', e)

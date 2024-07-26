@@ -59,6 +59,13 @@ function Map() {
     document.body.style['overflow-y'] = 'auto'
     document.body.style['position'] = 'inherit'
 
+    document.addEventListener('message', (event: any) => {
+      const message = JSON.parse(event.data);
+      if (message.type === 'updateGlobalVariable') {
+        console.log('Global variable updated:', message);
+      }
+    })
+
     if (window.ReactNativeWebView) {
       let streamSettings = window.ReactNativeWebView.injectedObjectJson()
       try {
