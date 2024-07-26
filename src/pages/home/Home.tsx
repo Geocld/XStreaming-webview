@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import VConsole from 'vconsole'
 import xStreamingPlayer from 'xstreaming-player'
 import Loading from '../../components/Loading'
-import PerfPanel from '../../components/PerfPanel'
 import WarningModal from '../../components/WarningModal'
 import { useTranslation } from 'react-i18next'
 import './Home.css'
@@ -16,18 +15,16 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
   const [connectState, setConnectState] = useState('')
-  const [showVirtualGamepad, setShowVirtualGamepad] = useState(false)
-  const [showPerformance, setShowPerformance] = useState(false)
   const [showWarning, setShowWarning] = useState(false)
   const [isStoped, setIsStoped] = useState(false)
   const isStopedRef = useRef(isStoped)
   const [xPlayer, setxPlayer] = useState(undefined)
   const vconsole = useRef(null)
   const keepaliveInterval = useRef(null)
+  const perfInterval = useRef(null)
 
   useEffect(() => {
     
-
     if (xPlayer !== undefined) {
       xPlayer.bind()
 
@@ -157,6 +154,13 @@ function Home() {
             xPlayer.getEventBus().on('connectionstate', (event: any) => {
               console.log(':: Connection state updated:', event)
               setConnectState(event.state)
+
+              window.ReactNativeWebView.postMessage(
+                JSON.stringify({
+                  type: 'connectionstate',
+                  message: event.state
+                })
+              );
               
               if(event.state === 'connected') {
                   // We are connected
@@ -179,6 +183,20 @@ function Home() {
                         })
                       );
                     }, 30 * 1000)
+
+                    // Send performance to RN
+                    perfInterval.current = setInterval(() => {
+                      if (xPlayer) {
+                        xPlayer.getStreamState && xPlayer.getStreamState().then(perf => {
+                          window.ReactNativeWebView.postMessage(
+                            JSON.stringify({
+                              type: 'performance',
+                              message: perf
+                            })
+                          )
+                        })
+                      }
+                    }, 2000)
                   }, 500)
     
               } else if(event.state === 'closing') {
@@ -188,6 +206,9 @@ function Home() {
               } else if(event.state === 'closed'){
                   // Connection has been closed. We have to cleanup here
                   console.log(':: We are disconnected!')
+                  if(perfInterval.current) {
+                    clearInterval(perfInterval.current)
+                  }
                   setTimeout(() => {
                     window.ReactNativeWebView.postMessage(
                       JSON.stringify({
@@ -249,6 +270,9 @@ function Home() {
       if (keepaliveInterval.current) {
         clearInterval(keepaliveInterval.current)
       }
+      if(perfInterval.current) {
+        clearInterval(perfInterval.current)
+      }
     }
   }, [xPlayer, t])
 
@@ -265,26 +289,8 @@ function Home() {
     clearTimeout(timer)
   }
 
-  document.addEventListener('message', (event: any) => {
-    const data = event.data
-    if (data.type === 'action') { // interactve
-      const message = data.message
-      if (message.single === 'pageBack') { // back action
-        // setShowModal(true)
-      }
-    }
-  })
-
   const handleModalAction = (key) => {
-    if (key === 'performance') {
-      setShowPerformance(!showPerformance)
-    }
-    if (key === 'gamepad') {
-      setShowVirtualGamepad(!showVirtualGamepad)
-    }
     if (key === 'exit') {
-      setShowPerformance(false)
-      setShowVirtualGamepad(false)
       setLoading(true)
       setLoadingText(`${t('Disconnecting...')}`)
       setIsStoped(true)
@@ -303,10 +309,6 @@ function Home() {
 
   return (
     <>
-      {showPerformance && (
-        <PerfPanel xPlayer={xPlayer} connectState={connectState} />
-      )}
-
       {loading && <Loading loadingText={loadingText} />}
 
       <WarningModal
@@ -319,28 +321,6 @@ function Home() {
           setShowWarning(false);
         }}
       />
-
-      {/* <Modal isOpen={showModal} size={"xs"} hideCloseButton={true}>
-        <ModalContent>
-          <>
-            <ModalBody>
-              <Listbox
-                aria-label="Actions"
-                onAction={(key) => handleModalAction(key)}
-              >
-                {connectState === "connected" && (
-                  <ListboxItem key="performance">{t('Toggle Performance')}</ListboxItem>
-                )}
-                {connectState === "connected" && (
-                  <ListboxItem key="gamepad">{t('Toggle Virtual Gamepad')}</ListboxItem>
-                )}
-                <ListboxItem key="exit">{t('Disconnect')}</ListboxItem>
-                <ListboxItem key="cancel">{t('Cancel')}</ListboxItem>
-              </Listbox>
-            </ModalBody>
-          </>
-        </ModalContent>
-      </Modal> */}
 
       <div id="videoHolder"></div>
     </>
