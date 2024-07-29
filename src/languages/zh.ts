@@ -23,7 +23,7 @@ export default {
     'Please press the button on the gamepad; this button will be mapped to:': '请按手柄上的按键，该按键将映射为:',
     'After successful mapping, this popup will automatically close.': '映射成功后将自动关闭此弹窗',
     'Warning': '提示',
-    'The terminal seems to have been without a screen for a long time. Please try reconnecting.': '终端似乎很久没有返回画面，请尝试重新连接。',
+    'The terminal seems to have been without a screen for a long time. Please try reconnecting.': '终端似乎很久没有返回画面，可以尝试点击确定按键刷新串流凭据并重新连接。',
     'Keep waiting': '继续等待',
     'Exit': '退出',
     'Resolution': '分辨率',

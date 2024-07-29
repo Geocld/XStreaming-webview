@@ -299,7 +299,7 @@ function Home() {
       setTimeout(() => {
         if (window.ReactNativeWebView) {
           window.ReactNativeWebView.postMessage(JSON.stringify({
-            type: 'exit'
+            type: 'timeoutExit'
           }));
         }
       }, 1000)
