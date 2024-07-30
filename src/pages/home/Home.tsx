@@ -15,6 +15,7 @@ function Home() {
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
   const [connectState, setConnectState] = useState('')
+  const [videoFormat, setVideoFormat] = useState('')
   const [showWarning, setShowWarning] = useState(false)
   const [isStoped, setIsStoped] = useState(false)
   const isStopedRef = useRef(isStoped)
@@ -45,6 +46,9 @@ function Home() {
       if (streamSettings.debug && !vconsole.current) {
         vconsole.current = new VConsole()
       }
+
+      setVideoFormat(streamSettings.video_format || '')
+      xPlayer.setVideoFormat(streamSettings.video_format || '')
 
       console.log('Starting xStreamingPlayer...')
       console.log('streamSettings:', streamSettings)
@@ -322,7 +326,7 @@ function Home() {
         }}
       />
 
-      <div id="videoHolder"></div>
+      <div id="videoHolder" className={videoFormat}></div>
     </>
   );
 }
