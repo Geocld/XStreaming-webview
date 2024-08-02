@@ -3,6 +3,7 @@ import VConsole from 'vconsole'
 import xStreamingPlayer from 'xstreaming-player'
 import Loading from '../../components/Loading'
 import WarningModal from '../../components/WarningModal'
+import FailedModal from '../../components/FailedModal'
 import { useTranslation } from 'react-i18next'
 import './Home.css'
 
@@ -11,18 +12,20 @@ console.log('xStreamingPlayer:', xStreamingPlayer)
 function Home() {
   const { t } = useTranslation()
 
-  const [timer, setTimer] = useState(null)
   const [loading, setLoading] = useState(true)
   const [loadingText, setLoadingText] = useState('')
   const [connectState, setConnectState] = useState('')
   const [videoFormat, setVideoFormat] = useState('')
   const [showWarning, setShowWarning] = useState(false)
+  const [showFailed, setShowFailed] = useState(false)
   const [isStoped, setIsStoped] = useState(false)
   const isStopedRef = useRef(isStoped)
   const [xPlayer, setxPlayer] = useState(undefined)
   const vconsole = useRef(null)
+  const timer = useRef(null)
   const keepaliveInterval = useRef(null)
   const perfInterval = useRef(null)
+  const connectStateRef = useRef('')
 
   useEffect(() => {
     
@@ -91,6 +94,16 @@ function Home() {
           xPlayer.setVideoBitrate(streamSettings.xhome_bitrate * 1000)
         }
       }
+
+      xPlayer.setConnectFailHandler(() => {
+        // Not connected
+        if (connectStateRef.current === '') {
+          if (timer.current) {
+            clearTimeout(timer.current)
+          }
+          setShowFailed(true)
+        }
+      })
       
 
       document.addEventListener('message', (event: any) => {
@@ -158,6 +171,7 @@ function Home() {
             xPlayer.getEventBus().on('connectionstate', (event: any) => {
               console.log(':: Connection state updated:', event)
               setConnectState(event.state)
+              connectStateRef.current = event.state
 
               window.ReactNativeWebView.postMessage(
                 JSON.stringify({
@@ -280,46 +294,55 @@ function Home() {
     }
   }, [xPlayer, t])
 
-  if (!timer) {
-    const _timer = setTimeout(() => {
+  if (!timer.current) {
+    timer.current = setTimeout(() => {
       if (connectState !== 'connected') {
         setShowWarning(true)
       }
     }, 60 * 1000)
-    setTimer(_timer)
   }
 
-  if (connectState === 'connected' && timer) {
-    clearTimeout(timer)
+  if (connectState === 'connected' && timer.current) {
+    clearTimeout(timer.current)
   }
 
-  const handleModalAction = (key) => {
-    if (key === 'exit') {
-      setLoading(true)
-      setLoadingText(`${t('Disconnecting...')}`)
-      setIsStoped(true)
-      xPlayer && xPlayer.close()
+  // exitType = exit | timeoutExit
+  const handleExit = (exitType) => {
+    setLoading(true)
+    setLoadingText(`${t('Disconnecting...')}`)
+    setIsStoped(true)
+    xPlayer && xPlayer.close()
 
-      setTimeout(() => {
-        if (window.ReactNativeWebView) {
-          window.ReactNativeWebView.postMessage(JSON.stringify({
-            type: 'timeoutExit'
-          }));
-        }
-      }, 1000)
-      
-    }
+    setTimeout(() => {
+      if (window.ReactNativeWebView) {
+        window.ReactNativeWebView.postMessage(JSON.stringify({
+          type: exitType
+        }));
+      }
+    }, 1000)
   }
 
   return (
     <>
       {loading && <Loading loadingText={loadingText} />}
 
+      <FailedModal
+        show={showFailed}
+        onConfirm={() => {
+          setShowWarning(false);
+          handleExit('timeoutExit')
+        }}
+        onCancel={() => {
+          setShowWarning(false);
+          handleExit('exit')
+        }}
+      />
+
       <WarningModal
         show={showWarning}
         onConfirm={() => {
           setShowWarning(false);
-          handleModalAction('exit')
+          handleExit('exit')
         }}
         onCancel={() => {
           setShowWarning(false);
