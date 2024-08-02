@@ -101,6 +101,7 @@ function Home() {
           if (timer.current) {
             clearTimeout(timer.current)
           }
+          setShowWarning(false)
           setShowFailed(true)
         }
       })
@@ -329,11 +330,11 @@ function Home() {
       <FailedModal
         show={showFailed}
         onConfirm={() => {
-          setShowWarning(false);
+          setShowFailed(false);
           handleExit('timeoutExit')
         }}
         onCancel={() => {
-          setShowWarning(false);
+          setShowFailed(false);
           handleExit('exit')
         }}
       />
