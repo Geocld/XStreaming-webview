@@ -105,6 +105,51 @@ function Home() {
           setShowFailed(true)
         }
       })
+
+      const getVideoPlayerFilterStyle = (options) => {
+        const filters = [];
+        const usmMatrix = document.getElementById('filter-usm-matrix')
+    
+        const sharpness = options.sharpness || 0; // 清晰度
+        if (sharpness !== 0) {
+          const level = (7 - ((sharpness / 2) - 1) * 0.5).toFixed(1); // 5, 5.5, 6, 6.5, 7
+          const matrix = `0 -1 0 -1 ${level} -1 0 -1 0`;
+          usmMatrix.setAttributeNS(null, 'kernelMatrix', matrix);
+          filters.push(`url(#filter-usm)`);
+        }
+    
+        const saturation = options.saturation || 100; // 饱和度
+        if (saturation != 100) {
+          filters.push(`saturate(${saturation}%)`);
+        }
+    
+        const contrast = options.contrast || 100; // 对比度
+        if (contrast !== 100) {
+          filters.push(`contrast(${contrast}%)`);
+        }
+    
+        const brightness = options.brightness || 100; // 亮度
+        if (brightness !== 100) {
+          filters.push(`brightness(${brightness}%)`);
+        }
+    
+        return filters.join(' ');
+      }
+    
+      const refreshPlayer = (options) => {
+        const videoStyle = document.getElementById('video-css')
+        let filters = getVideoPlayerFilterStyle(options);
+        let videoCss = '';
+        if (filters) {
+            videoCss += `filter: ${filters} !important;`;
+        }
+        let css = '';
+        if (videoCss) {
+            css = `#videoHolder video { ${videoCss} }`;
+        }
+    
+        videoStyle!.textContent = css;
+      }
       
 
       document.addEventListener('message', (event: any) => {
@@ -258,6 +303,9 @@ function Home() {
           if (type === 'gamepad') {
             globalThis.gpState = value
           }
+          if (type === 'refreshVideo') {
+            refreshPlayer(value)
+          }
         } catch (e) {
           console.log('error:', e)
         }
@@ -350,7 +398,11 @@ function Home() {
         }}
       />
 
-      <div id="videoHolder" className={videoFormat}></div>
+      <div id="videoHolder" className={videoFormat}>
+        {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline></video> */}
+      </div>
+
+      <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
     </>
   );
 }
