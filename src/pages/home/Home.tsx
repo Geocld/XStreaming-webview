@@ -138,7 +138,7 @@ function Home() {
     
       const refreshPlayer = (options) => {
         const videoStyle = document.getElementById('video-css')
-        let filters = getVideoPlayerFilterStyle(options);
+        const filters = getVideoPlayerFilterStyle(options);
         let videoCss = '';
         if (filters) {
             videoCss += `filter: ${filters} !important;`;
@@ -236,6 +236,11 @@ function Home() {
                     const videoElem = document.getElementsByTagName('video')[0]
                     if (videoElem) {
                       videoElem.style.backgroundColor = 'black'
+                    }
+
+                    // Refresh video player
+                    if (streamSettings.display_options) {
+                      refreshPlayer(streamSettings.display_options)
                     }
 
                     // Start keepalive loop
