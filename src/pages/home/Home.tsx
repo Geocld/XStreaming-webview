@@ -85,13 +85,13 @@ function Home() {
       
       if (streamSettings.streamType === 'xcloud') {
         if (streamSettings.xcloud_bitrate_mode === 'custom' && streamSettings.xcloud_bitrate !== 0) {
-          console.log('setVideoBitrate xcloud:', streamSettings.xcloud_bitrate + 'Mbps')
-          xPlayer.setVideoBitrate(streamSettings.xcloud_bitrate * 1000)
+          console.log('setVideoBitrate xcloud:', streamSettings.xcloud_bitrate + 'Mb/s')
+          xPlayer.setVideoBitrate(streamSettings.xcloud_bitrate)
         }
       } else {
         if (streamSettings.xhome_bitrate_mode === 'custom' && streamSettings.xhome_bitrate !== 0) {
-          console.log('setVideoBitrate xhome:', streamSettings.xhome_bitrate + 'Mbps')
-          xPlayer.setVideoBitrate(streamSettings.xhome_bitrate * 1000)
+          console.log('setVideoBitrate xhome:', streamSettings.xhome_bitrate + 'Mb/s')
+          xPlayer.setVideoBitrate(streamSettings.xhome_bitrate)
         }
       }
 
@@ -149,6 +149,48 @@ function Home() {
         }
     
         videoStyle!.textContent = css;
+      }
+
+      const resizePlayer = (prefRatio) => {
+        let targetWidth = '';
+        let targetHeight = '';
+        let targetObjectFit = '';
+        const tmp = prefRatio.split(':');
+        const videoRatio = parseFloat(tmp[0]) / parseFloat(tmp[1]);
+
+        let width = 0;
+        let height = 0;
+
+        const $video = document.getElementsByTagName('video')[0];
+
+        // Get window's ratio
+        const winWidth = document.documentElement.clientWidth;
+        const winHeight = document.documentElement.clientHeight;
+        const parentRatio = winWidth / winHeight;
+
+        // Get target width & height
+        if (parentRatio > videoRatio) {
+          height = winHeight;
+          width = height * videoRatio;
+        } else {
+          width = winWidth;
+          height = width / videoRatio;
+        }
+
+        // Prevent floating points
+        width = Math.ceil(Math.min(winWidth, width));
+        height = Math.ceil(Math.min(winHeight, height));
+
+        $video.dataset.width = width.toString();
+        $video.dataset.height = height.toString();
+
+        targetWidth = `${width}px`;
+        targetHeight = `${height}px`;
+        targetObjectFit = prefRatio === '16:9' ? 'contain' : 'fill';
+
+        $video.style.width = targetWidth;
+        $video.style.height = targetHeight;
+        $video.style.objectFit = targetObjectFit;
       }
       
 
@@ -241,6 +283,10 @@ function Home() {
                     // Refresh video player
                     if (streamSettings.display_options) {
                       refreshPlayer(streamSettings.display_options)
+                    }
+
+                    if (streamSettings.video_format && streamSettings.video_format.indexOf(':') > -1) {
+                      resizePlayer(streamSettings.video_format)
                     }
 
                     // Start keepalive loop
@@ -376,6 +422,16 @@ function Home() {
     }, 1000)
   }
 
+  let videoHolderClass = ''
+
+  if (videoFormat) {
+    if (videoFormat.indexOf(':') > -1) {
+      videoHolderClass = 'normal'
+    } else {
+      videoHolderClass = videoFormat
+    }
+  }
+
   return (
     <>
       {loading && <Loading loadingText={loadingText} />}
@@ -403,8 +459,8 @@ function Home() {
         }}
       />
 
-      <div id="videoHolder" className={videoFormat}>
-        {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline></video> */}
+      <div id="videoHolder" className={videoHolderClass}>
+        {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline style={{width: '814px', height: '407px', objectFit: 'fill'}}></video> */}
       </div>
 
       <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
