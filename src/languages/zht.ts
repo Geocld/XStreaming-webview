@@ -29,11 +29,11 @@ export default {
     'Exit': '退出',
     'Refresh': '刷新',
     'Resolution': '解析度',
-    'Round Trip Time': '延遲',
-    'FPS': '幀數',
-    'Frames Dropped': '掉幀',
-    'Packets Lost': '丟包',
-    'Bitrate': '碼率',
-    'Decode time': '解碼時間'
+    RTT: '延遲',
+    FPS: '幀數',
+    FD: '掉幀',
+    PL: '丟包',
+    Bitrate: '碼率',
+    DT: '解碼',
   }
 }

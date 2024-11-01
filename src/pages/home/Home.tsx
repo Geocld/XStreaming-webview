@@ -4,6 +4,7 @@ import xStreamingPlayer from 'xstreaming-player'
 import Loading from '../../components/Loading'
 import WarningModal from '../../components/WarningModal'
 import FailedModal from '../../components/FailedModal'
+import PerfPanel from '../../components/PerfPanel'
 import { useTranslation } from 'react-i18next'
 import './Home.css'
 
@@ -18,7 +19,9 @@ function Home() {
   const [videoFormat, setVideoFormat] = useState('')
   const [showWarning, setShowWarning] = useState(false)
   const [showFailed, setShowFailed] = useState(false)
+  const [showPerform, setShowPerform] = useState(false)
   const [isStoped, setIsStoped] = useState(false)
+  const [performanceStyle, setPerformanceStyle] = useState(true)
   const isStopedRef = useRef(isStoped)
   const [xPlayer, setxPlayer] = useState(undefined)
   const vconsole = useRef(null)
@@ -51,6 +54,8 @@ function Home() {
       }
 
       setVideoFormat(streamSettings.video_format || '')
+      setPerformanceStyle(streamSettings.performance_style || true)
+
       xPlayer.setVideoFormat(streamSettings.video_format || '')
 
       console.log('Starting xStreamingPlayer...')
@@ -203,7 +208,6 @@ function Home() {
             if (isStopedRef.current) {
               return
             }
-            console.log('[startSessionEnd]:', value)
 
             setLoadingText(`${t('Configuration obtained successfully, initiating offer...')}`)
       
@@ -299,19 +303,22 @@ function Home() {
                       );
                     }, 30 * 1000)
 
-                    // Send performance to RN
-                    perfInterval.current = setInterval(() => {
-                      if (xPlayer) {
-                        xPlayer.getStreamState && xPlayer.getStreamState().then(perf => {
-                          window.ReactNativeWebView.postMessage(
-                            JSON.stringify({
-                              type: 'performance',
-                              message: perf
-                            })
-                          )
-                        })
-                      }
-                    }, 2000)
+                    if (streamSettings.gamepad_kernal !== 'Web') {
+                      // Send performance to RN
+                      perfInterval.current = setInterval(() => {
+                        if (xPlayer) {
+                          xPlayer.getStreamState && xPlayer.getStreamState().then(perf => {
+                            window.ReactNativeWebView.postMessage(
+                              JSON.stringify({
+                                type: 'performance',
+                                message: perf
+                              })
+                            )
+                          })
+                        }
+                      }, 2000)
+                    }
+                    
                   }, 500)
     
               } else if(event.state === 'closing') {
@@ -356,6 +363,12 @@ function Home() {
           }
           if (type === 'refreshVideo') {
             refreshPlayer(value)
+          }
+          if (type === 'showPerformance') {
+            setShowPerform(true)
+          }
+          if (type === 'hidePerformance') {
+            setShowPerform(false)
           }
         } catch (e) {
           console.log('error:', e)
@@ -458,6 +471,10 @@ function Home() {
           setShowWarning(false);
         }}
       />
+
+      {
+        showPerform && <PerfPanel xPlayer={xPlayer} connectState={connectState} isHorizon={performanceStyle}/>
+      }
 
       <div id="videoHolder" className={videoHolderClass}>
         {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline style={{width: '814px', height: '407px', objectFit: 'fill'}}></video> */}
