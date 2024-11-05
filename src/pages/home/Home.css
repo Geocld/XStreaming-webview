@@ -14,30 +14,26 @@
 	left: 0;
 	top: 0;
 	color: #fff;
-	font-size: 12px;
+	font-size: 14px;
 	background-color: rgba(0, 0, 0, .5);
 	z-index: 4;
 }
 
 .performances-h {
-	display: flex;
-	flex: 1;
-	justify-content: flex-start;
-	align-items: center;
 	position: fixed;
 	left: 0;
 	top: 0;
 	right: 0;
 	z-index: 4;
+	text-align: center;
 }
 
 .performances-h .performances-wrap {
-	font-size: 12px;
+	display: inline-block;
+	font-size: 14px;
 	background-color: rgba(0, 0, 0, .5);
 	color: #fff;
 	padding: 5px;
-	display: flex;
-	flex-direction: row;
 }
 
 .normal {

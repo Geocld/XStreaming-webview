@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 const PerfPanel = ({ xPlayer, connectState, isHorizon = true }) => {
   const { t } = useTranslation()
-  const [performance, setPerformance] = useState(null)
+  const [performance, setPerformance] = useState<any>(null)
   const performanceRef = useRef(null)
   
   useEffect(() => {
@@ -57,13 +57,13 @@ const PerfPanel = ({ xPlayer, connectState, isHorizon = true }) => {
       return (
         <div className='performances-h'>
           <div className='performances-wrap'>
-            <div>{performance.resolution || ''} | </div>
-            <div>{t('RTT')}: {performance.rtt || ''} | </div>
-            <div>{t('FPS')}: {performance.fps || ''} | </div>
-            <div>{t('FD')}: {performance.fl || ''} | </div>
-            <div>{t('PL')}: {performance.pl || ''} | </div>
-            <div>{t('Bitrate')}: {performance.br || ''} | </div>
-            <div>{t('DT')}: {performance.decode || ''}</div>
+            <span>{performance.resolution || ''} | </span>
+            <span>{t('RTT')}: {performance.rtt || ''} | </span>
+            <span>{t('FPS')}: {performance.fps || ''} | </span>
+            <span>{t('FD')}: {performance.fl || ''} | </span>
+            <span>{t('PL')}: {performance.pl || ''} | </span>
+            <span>{t('Bitrate')}: {performance.br || ''} | </span>
+            <span>{t('DT')}: {performance.decode || ''}</span>
           </div>
         </div>
       )

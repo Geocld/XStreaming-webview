@@ -100,6 +100,20 @@ function Home() {
         }
       }
 
+      // Set audio bitrate
+      if (
+        streamSettings.audio_bitrate_mode === "custom" &&
+        streamSettings.audio_bitrate !== 0
+      ) {
+        console.log(
+          "setAudioBitrate:",
+          streamSettings.audio_bitrate + "Mb/s"
+        );
+        xPlayer.setAudioBitrate(streamSettings.audio_bitrate);
+      }
+
+      xPlayer.setForceTriggerRumble(false)
+
       xPlayer.setConnectFailHandler(() => {
         // Not connected
         if (connectStateRef.current === '') {
@@ -294,14 +308,16 @@ function Home() {
                     }
 
                     // Start keepalive loop
-                    keepaliveInterval.current = setInterval(() => {
-                      window.ReactNativeWebView.postMessage(
-                        JSON.stringify({
-                          type: 'sendKeepalive',
-                          message: ''
-                        })
-                      );
-                    }, 30 * 1000)
+                    if (!keepaliveInterval.current) {
+                      keepaliveInterval.current = setInterval(() => {
+                        window.ReactNativeWebView.postMessage(
+                          JSON.stringify({
+                            type: 'sendKeepalive',
+                            message: ''
+                          })
+                        );
+                      }, 30 * 1000)
+                    }
 
                     if (streamSettings.gamepad_kernal !== 'Web') {
                       // Send performance to RN
