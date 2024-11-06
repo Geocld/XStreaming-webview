@@ -15,10 +15,18 @@ const PerfPanel = ({ xPlayer, connectState, isHorizon = true }) => {
           xPlayer.getStreamState && xPlayer.getStreamState().then(perf => {
 
             if (oldPerf) {
-              if (!perf.br && oldPerf.br) {
+              if (
+                (!perf.br || perf.br === '--') &&
+                oldPerf.br &&
+                oldPerf.br !== '--'
+              ) {
                 perf.br = oldPerf.br
               }
-              if (!perf.decode && oldPerf.decode) {
+              if (
+                (!perf.decode || perf.decode === '--') &&
+                oldPerf.decode &&
+                oldPerf.decode !== '--'
+              ) {
                 perf.decode = oldPerf.decode
               }
             }
