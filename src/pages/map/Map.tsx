@@ -59,8 +59,16 @@ function Map() {
     document.body.style['overflow-y'] = 'auto'
     document.body.style['position'] = 'inherit'
 
+    if (!vconsole) {
+      setVconsole(new VConsole())
+    }
+
+    console.log('window.ReactNativeWebView:', window.ReactNativeWebView)
+
     document.addEventListener('message', (event: any) => {
       const message = JSON.parse(event.data);
+
+      console.log('receive message:', message)
       if (message.type === 'updateGlobalVariable') {
         console.log('Global variable updated:', message);
       }
