@@ -44,8 +44,8 @@ const maping = {
 
 const GamepadMapModal = ({ show, current, onConfirm, onCancel }) => {
   const { t } = useTranslation()
-  const [timer, setTimer] = useState(null)
-  const [gamepads, setGamepads] = useState([])
+  // const [timer, setTimer] = useState(null)
+  // const [gamepads, setGamepads] = useState([])
   const [isConfirm, setIsConfirm] = useState(false)
 
   useEffect(() => {
