@@ -1,0 +1,25 @@
+.map-page {
+  padding-bottom: 100px;
+}
+
+.map-page .maps {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.map-page .maps-item {
+  padding: 10px;
+  width: 50%;
+}
+
+.map-page .operate-btns {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+}
+
+.map-page .operate-btns button {
+  margin-top: 10px;
+}
