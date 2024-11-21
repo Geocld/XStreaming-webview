@@ -76,22 +76,22 @@ function Map() {
       }
     });
 
-    if (window.ReactNativeWebView) {
-      let streamSettings = window.ReactNativeWebView.injectedObjectJson();
-      try {
-        streamSettings = JSON.parse(streamSettings).settings;
-      } catch (e) {
-        streamSettings = {};
-      }
+    // if (window.ReactNativeWebView) {
+    //   let streamSettings = window.ReactNativeWebView.injectedObjectJson();
+    //   try {
+    //     streamSettings = JSON.parse(streamSettings).settings;
+    //   } catch (e) {
+    //     streamSettings = {};
+    //   }
 
-      if (streamSettings.gamepad_maping) {
-        setMaping(streamSettings.gamepad_maping);
-      }
+    //   if (streamSettings.gamepad_maping) {
+    //     setMaping(streamSettings.gamepad_maping);
+    //   }
 
-      if (streamSettings.debug && vconsole === undefined) {
-        setVconsole(new VConsole());
-      }
-    }
+    //   if (streamSettings.debug && vconsole === undefined) {
+    //     setVconsole(new VConsole());
+    //   }
+    // }
 
     return () => {
       if (vconsole !== undefined) {
@@ -118,7 +118,7 @@ function Map() {
 
   const handleSave = () => {
     console.log("maping:", maping);
-    setLoading(true);
+    // setLoading(true);
     setLoadingText(t("Saving..."));
     window.ReactNativeWebView &&
       window.ReactNativeWebView.postMessage(
@@ -127,10 +127,10 @@ function Map() {
           message: maping,
         })
       );
-    setTimeout(() => {
-      setLoadingText(t("Saved"));
-      setLoading(false);
-    }, 2000);
+    // setTimeout(() => {
+    //   setLoadingText(t("Saved"));
+    //   setLoading(false);
+    // }, 2000);
   };
 
   const handleReset = () => {
