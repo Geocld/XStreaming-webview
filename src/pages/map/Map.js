@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import VConsole from "vconsole";
 import { Button } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
@@ -56,13 +56,31 @@ function Map() {
   const [loading, setLoading] = useState(false);
   const [loadingText, setLoadingText] = useState("");
   const [vconsole, setVconsole] = useState(undefined);
+  const [streamSettings, setStreamSettings] = useState(null);
+
+  const timer = useRef(null)
 
   useEffect(() => {
     document.body.style["overflow-y"] = "auto";
     document.body.style["position"] = "inherit";
 
     console.log("window.ReactNativeWebView:", window.ReactNativeWebView);
-    console.log('window.streamSettings:', window.streamSettings)
+
+    if (!timer.current) {
+      timer.current = setInterval(() => {
+        console.log('window.streamSettings:', window.streamSettings);
+        if (window.streamSettings) {
+          try {
+            const _streamSettings = JSON.parse(window.streamSettings);
+            setStreamSettings(_streamSettings)
+          } catch (e) {
+            setStreamSettings({})
+          }
+          
+          clearInterval(timer.current)
+        }
+      }, 500);
+    }
     
 
     document.addEventListener("message", (event) => {
@@ -74,14 +92,8 @@ function Map() {
       }
     });
 
-    if (window.streamSettings) {
-      let streamSettings = window.streamSettings;
-      try {
-        streamSettings = JSON.parse(streamSettings).settings;
-      } catch (e) {
-        streamSettings = {};
-      }
-
+    if (streamSettings) {
+      console.log('streamSettings:', streamSettings)
       if (streamSettings.gamepad_maping) {
         setMaping(streamSettings.gamepad_maping);
       }
@@ -96,7 +108,7 @@ function Map() {
         vconsole.destroy();
       }
     };
-  }, [vconsole]);
+  }, [vconsole, streamSettings]);
 
   const [showModal, setShowModal] = useState(false);
 
