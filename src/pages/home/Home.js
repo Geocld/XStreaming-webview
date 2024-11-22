@@ -403,6 +403,7 @@ function Home() {
 
       // startSession
       if (window.ReactNativeWebView) {
+        console.log('xcloudReady')
         setLoading(true)
         setLoadingText(`${t('Connecting...')}`)
         window.ReactNativeWebView.postMessage(JSON.stringify({
