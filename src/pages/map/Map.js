@@ -61,11 +61,9 @@ function Map() {
     document.body.style["overflow-y"] = "auto";
     document.body.style["position"] = "inherit";
 
-    // if (!vconsole) {
-    //   setVconsole(new VConsole())
-    // }
-
     console.log("window.ReactNativeWebView:", window.ReactNativeWebView);
+    console.log('window.streamSettings:', window.streamSettings)
+    
 
     document.addEventListener("message", (event) => {
       const message = JSON.parse(event.data);
@@ -76,22 +74,22 @@ function Map() {
       }
     });
 
-    // if (window.ReactNativeWebView) {
-    //   let streamSettings = window.ReactNativeWebView.injectedObjectJson();
-    //   try {
-    //     streamSettings = JSON.parse(streamSettings).settings;
-    //   } catch (e) {
-    //     streamSettings = {};
-    //   }
+    if (window.streamSettings) {
+      let streamSettings = window.streamSettings;
+      try {
+        streamSettings = JSON.parse(streamSettings).settings;
+      } catch (e) {
+        streamSettings = {};
+      }
 
-    //   if (streamSettings.gamepad_maping) {
-    //     setMaping(streamSettings.gamepad_maping);
-    //   }
+      if (streamSettings.gamepad_maping) {
+        setMaping(streamSettings.gamepad_maping);
+      }
 
-    //   if (streamSettings.debug && vconsole === undefined) {
-    //     setVconsole(new VConsole());
-    //   }
-    // }
+      if (streamSettings.debug && vconsole === undefined) {
+        setVconsole(new VConsole());
+      }
+    }
 
     return () => {
       if (vconsole !== undefined) {
