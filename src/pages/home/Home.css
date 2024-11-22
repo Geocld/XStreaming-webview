@@ -1,0 +1,64 @@
+.performances-v {
+	position: fixed;
+	left: 0;
+	top: 0;
+	color: #fff;
+	font-size: 14px;
+	background-color: rgba(0, 0, 0, .5);
+	z-index: 4;
+}
+
+.performances-h {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 4;
+	text-align: center;
+}
+
+.performances-h .performances-wrap {
+	display: inline-block;
+	font-size: 14px;
+	background-color: rgba(0, 0, 0, .5);
+	color: #fff;
+	padding: 5px;
+}
+
+.normal {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;      
+}
+
+#videoHolder.normal video {
+	position: relative !important;
+}
+
+.Stretch {
+	width: 100%;
+	height: 100%;
+	touch-action: none;
+}
+
+.Zoom {
+	width: auto;
+	height: 100%;
+	touch-action: none;
+}
+
+#videoHolder video {
+	position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wrapper {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+}

@@ -8,11 +8,18 @@ import { NextUIProvider } from "@nextui-org/react"
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import './index.css';
 
+import Home from './pages/home/Home'
 import Map from './pages/map/Map'
+
+import './i18n'
 
 const router = createHashRouter([
   {
     path: '/',
+    element: <Home/>,
+  },
+  {
+    path: '/map',
     element: <Map/>,
   },
 ]);
