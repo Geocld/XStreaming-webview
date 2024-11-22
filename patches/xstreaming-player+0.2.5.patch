@@ -29,10 +29,27 @@ index 9840482..da9806f 100644
                  const videoWidth = videoRender.videoWidth;
                  const videoHeight = videoRender.videoHeight;
 diff --git a/node_modules/xstreaming-player/dist/index.js b/node_modules/xstreaming-player/dist/index.js
-index ddbff00..b0f7a77 100644
+index ddbff00..8946dbd 100644
 --- a/node_modules/xstreaming-player/dist/index.js
 +++ b/node_modules/xstreaming-player/dist/index.js
-@@ -405,8 +405,8 @@ class xStreamingPlayer {
+@@ -127,13 +127,16 @@ class xStreamingPlayer {
+         this._keyboardDriver = new Keyboard_1.default((_a = this._config.input_mousekeyboard_config) !== null && _a !== void 0 ? _a : Keyboard_1.MouseKeyboardConfig.default());
+         this._gatherIce();
+         this._webrtcClient.ontrack = (event) => {
++            console.log('_webrtcClient.ontrack:', event.track.kind);
+             if (event.track.kind === 'video') {
+                 this._videoComponent = new Video_1.default(this);
+                 this._videoComponent.create(event.streams[0]);
++                console.log('new Video Component');
+             }
+             else if (event.track.kind === 'audio') {
+                 this._audioComponent = new Audio_1.default(this);
+                 this._audioComponent.create(event.streams[0]);
++                console.log('new Audio Component');
+             }
+             else {
+                 console.log('Unknown Track kind: ', event.track.kind);
+@@ -405,8 +408,8 @@ class xStreamingPlayer {
                  this._webrtcChannelProcessors[name].destroy();
              }
              this._webrtcChannelProcessors = {};
@@ -43,3 +60,19 @@ index ddbff00..b0f7a77 100644
          }
      }
      getIceCandidates() {
+diff --git a/node_modules/xstreaming-player/src/index.ts b/node_modules/xstreaming-player/src/index.ts
+index ea36e49..33fb542 100644
+--- a/node_modules/xstreaming-player/src/index.ts
++++ b/node_modules/xstreaming-player/src/index.ts
+@@ -142,9 +142,11 @@ export default class xStreamingPlayer {
+ 
+         this._webrtcClient.ontrack = (event) => {
+ 
++            console.log('_webrtcClient.ontrack:', event.track.kind)
+             if(event.track.kind === 'video'){
+                 this._videoComponent = new VideoComponent(this)
+                 this._videoComponent.create(event.streams[0])
++                console.log('new VideoComponent')
+ 
+             } else if(event.track.kind === 'audio'){
+                 this._audioComponent = new AudioComponent(this)
