@@ -12,7 +12,7 @@ index c8df1ae..a6a8e85 100644
              audioHolder.appendChild(audioRender);
          }
 diff --git a/node_modules/xstreaming-player/dist/Component/Video.js b/node_modules/xstreaming-player/dist/Component/Video.js
-index 9840482..da9806f 100644
+index 9840482..54813e3 100644
 --- a/node_modules/xstreaming-player/dist/Component/Video.js
 +++ b/node_modules/xstreaming-player/dist/Component/Video.js
 @@ -35,9 +35,9 @@ class VideoComponent {
@@ -28,6 +28,41 @@ index 9840482..da9806f 100644
              videoRender.addEventListener('loadedmetadata', () => {
                  const videoWidth = videoRender.videoWidth;
                  const videoHeight = videoRender.videoHeight;
+@@ -47,20 +47,20 @@ class VideoComponent {
+                 videoRender.play();
+                 this._client._audioComponent._audioRender.play();
+             };
+-            const serverDataLoop = (t, i) => {
+-                if (this._client.getChannelProcessor('input')) {
+-                    videoRender.requestVideoFrameCallback(serverDataLoop);
+-                    this._videoFps.count();
+-                    this._client.getChannelProcessor('input').addProcessedFrame({
+-                        serverDataKey: i.rtpTimestamp,
+-                        firstFramePacketArrivalTimeMs: i.receiveTime,
+-                        frameSubmittedTimeMs: i.receiveTime,
+-                        frameDecodedTimeMs: i.expectedDisplayTime,
+-                        frameRenderedTimeMs: i.expectedDisplayTime,
+-                    });
+-                }
+-            };
+-            videoRender.requestVideoFrameCallback(serverDataLoop);
++            // const serverDataLoop = (t, i) => {
++            //     if (this._client.getChannelProcessor('input')) {
++            //         videoRender.requestVideoFrameCallback(serverDataLoop);
++            //         this._videoFps.count();
++            //         this._client.getChannelProcessor('input').addProcessedFrame({
++            //             serverDataKey: i.rtpTimestamp,
++            //             firstFramePacketArrivalTimeMs: i.receiveTime,
++            //             frameSubmittedTimeMs: i.receiveTime,
++            //             frameDecodedTimeMs: i.expectedDisplayTime,
++            //             frameRenderedTimeMs: i.expectedDisplayTime,
++            //         });
++            //     }
++            // };
++            // videoRender.requestVideoFrameCallback(serverDataLoop);
+             this._videoRender = videoRender;
+             videoHolder.appendChild(videoRender);
+             this._videoFps.start();
 diff --git a/node_modules/xstreaming-player/dist/index.js b/node_modules/xstreaming-player/dist/index.js
 index ddbff00..8946dbd 100644
 --- a/node_modules/xstreaming-player/dist/index.js
