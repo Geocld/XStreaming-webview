@@ -506,7 +506,7 @@ function Home() {
       }
 
       <div id="videoHolder" className={videoHolderClass}>
-        <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline style={{width: '814px', height: '407px', objectFit: 'fill'}}></video>
+        {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline style={{width: '814px', height: '407px', objectFit: 'fill'}}></video> */}
       </div>
 
       <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
