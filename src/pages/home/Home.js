@@ -52,7 +52,7 @@ function Home() {
       }, 500);
     }
     
-    if (xPlayer !== undefined && streamSettings) {
+    if (xPlayer !== undefined && streamSettings !== null) {
       xPlayer.bind()
 
       if (!window.ReactNativeWebView) return
@@ -410,15 +410,17 @@ function Home() {
         }));
       }
     } else {
-      setxPlayer(new xStreamingPlayer('videoHolder', {
-        ui_systemui: [],
-        ui_touchenabled: false,
-        input_legacykeyboard: false,
-      }))
+      if (xPlayer === undefined) {
+        setxPlayer(new xStreamingPlayer('videoHolder', {
+          ui_systemui: [],
+          ui_touchenabled: false,
+          input_legacykeyboard: false,
+        }))
+      }
     }
 
     return () => {
-      if(xPlayer !== undefined && streamSettings){
+      if(xPlayer !== undefined && streamSettings !== null){
           xPlayer.close()
       }
       if (vconsole.current) {
