@@ -224,7 +224,7 @@ function Home() {
         try {
           const data = JSON.parse(event.data);
 
-          console.log("receive message:", data);
+          // console.log("receive message:", data);
 
           const { type, value } = data;
 
