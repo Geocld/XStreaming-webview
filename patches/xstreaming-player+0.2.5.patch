@@ -12,18 +12,22 @@ index c8df1ae..a6a8e85 100644
              audioHolder.appendChild(audioRender);
          }
 diff --git a/node_modules/xstreaming-player/dist/Component/Video.js b/node_modules/xstreaming-player/dist/Component/Video.js
-index 9840482..800087d 100644
+index 9840482..da9806f 100644
 --- a/node_modules/xstreaming-player/dist/Component/Video.js
 +++ b/node_modules/xstreaming-player/dist/Component/Video.js
-@@ -31,7 +31,7 @@ class VideoComponent {
-             }
-             // videoRender.style.backgroundColor = 'black'
-             // videoRender.muted = true
--            videoRender.autoplay = true;
-+            // videoRender.autoplay = true;
+@@ -35,9 +35,9 @@ class VideoComponent {
              videoRender.muted = true;
              videoRender.playsInline = true;
              // videoHolder.style.aspectRatio = '16 / 9'
+-            setInterval(() => {
+-                videoRender.play();
+-            }, 4);
++            // setInterval(() => {
++            //     videoRender.play();
++            // }, 4);
+             videoRender.addEventListener('loadedmetadata', () => {
+                 const videoWidth = videoRender.videoWidth;
+                 const videoHeight = videoRender.videoHeight;
 diff --git a/node_modules/xstreaming-player/dist/index.js b/node_modules/xstreaming-player/dist/index.js
 index ddbff00..b0f7a77 100644
 --- a/node_modules/xstreaming-player/dist/index.js
