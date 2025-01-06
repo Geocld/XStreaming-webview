@@ -24,7 +24,7 @@ export default {
     'After successful mapping, this popup will automatically close.': '映射成功后将自动关闭此弹窗',
     'Warning': '提示',
     'The terminal seems to have been without a screen for a long time. Please try reconnecting.': '终端似乎很久没有返回画面，可以尝试点击确定按键刷新串流凭据并重新连接。',
-    'NAT traversal failed. If you were attempting remote streaming and it was successful before, please click the refresh button below to refresh the streaming credentials and try again.': 'NAT打洞失败，如果你是尝试远程串流并之前成功过，请点击下方刷新按钮刷新串流凭据重试，重试多次依旧无法连接请稍后再试。',
+    'NAT failed': 'NAT打洞失败，如果你正在尝试远程串流，请保证已经正确配置路由器，并设置已经设置端口转发，如果无法解决远程串流，请使用官方Xbox应用。',
     'Keep waiting': '继续等待',
     'Exit': '退出',
     'Refresh': '刷新',

@@ -402,7 +402,7 @@ function Home() {
     } else {
       setxPlayer(new xStreamingPlayer('videoHolder', {
         ui_systemui: [],
-        ui_touchenabled: false,
+        ui_touchenabled: true,
         input_legacykeyboard: false,
       }))
     }

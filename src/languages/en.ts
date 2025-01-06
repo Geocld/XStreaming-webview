@@ -17,6 +17,7 @@ export default {
     'After successful mapping, this pop-up will automatically close': 'After successful mapping, this pop-up will automatically close',
     'Cancel': 'Cancel',
     'Save': 'Save',
+    'NAT failed': 'NAT punch-through failed. If you are attempting remote streaming, please ensure your router is properly configured and port forwarding is set up. If you cannot resolve remote streaming issues, please use the official Xbox app.',
     'Saving...': 'Saving...',
     'Saved': 'Saved',
     'Reset': 'Reset',

@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/static/css/main.dce56286.css",
+    "main.js": "/static/js/main.5c4cd508.js",
+    "static/media/right-joystick-down.svg": "/static/media/right-joystick-down.4e8d4b2f624bc0c6778ca5fab7fd5cf2.svg",
+    "static/media/rb.svg": "/static/media/rb.84fe497b3567436d97a36a4f17440270.svg",
+    "static/media/left-joystick-down.svg": "/static/media/left-joystick-down.b7e1c23a2641b5515d7608e0b5dc3b70.svg",
+    "static/media/a.svg": "/static/media/a.06b2c3fbd95cd14f392735c10af6cd4d.svg",
+    "static/media/b.svg": "/static/media/b.547e27858021dbd4459fae5ce608f6c6.svg",
+    "static/media/y.svg": "/static/media/y.6745cfce07d4b1dd8f3c24cdfa683f95.svg",
+    "static/media/x.svg": "/static/media/x.740c14f1755c5e952d3c6e2c0966ba58.svg",
+    "static/media/lb.svg": "/static/media/lb.f8696183459d71a389bc0b26948e0e3d.svg",
+    "static/media/xbox.svg": "/static/media/xbox.1d2e9544989be122fb4c5194afbd71e0.svg",
+    "static/media/rt.svg": "/static/media/rt.9f534b003f636d9c691490e17bc4b303.svg",
+    "static/media/lt.svg": "/static/media/lt.531644b5a899b51d46c3b252daeb167c.svg",
+    "static/media/view.svg": "/static/media/view.c19e568299a0ae95e2cf359afa5a0202.svg",
+    "static/media/menu.svg": "/static/media/menu.9b06c45d013035bd45f3a625ebac0887.svg",
+    "static/media/arrow-right.svg": "/static/media/arrow-right.5aa4c7d353a0a25ca6418e22741255fd.svg",
+    "static/media/gamepad-left.svg": "/static/media/gamepad-left.98ab726a45492f8ba3369340a8829739.svg",
+    "static/media/gamepad-right.svg": "/static/media/gamepad-right.46122e54123edbb383f70c1861331579.svg",
+    "static/media/gamepad-down.svg": "/static/media/gamepad-down.aff9be0efc625d7996383f498f8d6b35.svg",
+    "index.html": "/index.html",
+    "static/media/gamepad-up.svg": "/static/media/gamepad-up.09b5085ae71bb210f9e4f9cced6b717e.svg",
+    "main.dce56286.css.map": "/static/css/main.dce56286.css.map",
+    "main.5c4cd508.js.map": "/static/js/main.5c4cd508.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dce56286.css",
+    "static/js/main.5c4cd508.js"
+  ]
+}

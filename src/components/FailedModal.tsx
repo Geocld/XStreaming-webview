@@ -18,14 +18,11 @@ const FailedModal = ({ show, onConfirm, onCancel }) => {
         <>
           <ModalHeader className="flex flex-col gap-1">{t('Warning')}</ModalHeader>
           <ModalBody>
-            <p>{t('NAT traversal failed. If you were attempting remote streaming and it was successful before, please click the refresh button below to refresh the streaming credentials and try again.')}</p>
+            <p>{t('NAT failed')}</p>
           </ModalBody>
           <ModalFooter>
             <Button color="danger" variant="light" onPress={handleExit}>
               {t('Exit')}
-            </Button>
-            <Button color="primary" onPress={handleRefresh}>
-              {t('Refresh')}
             </Button>
           </ModalFooter>
         </>

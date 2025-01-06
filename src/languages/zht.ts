@@ -20,6 +20,7 @@ export default {
     'Saving...': '儲存中...',
     'Saved': '儲存成功',
     'Reset': '恢復預設值',
+    'NAT failed': 'NAT punch-through failed. If you are attempting remote streaming, please ensure your router is properly configured and port forwarding is set up. If you cannot resolve remote streaming issues, please use the official Xbox app.',
     'Please press the button on the gamepad; this button will be mapped to:': '請按手柄上的按鍵，該按鍵將映射為:',
     'After successful mapping, this popup will automatically close.': '映射成功後將自動關閉此彈窗',
     'Warning': '提示',
