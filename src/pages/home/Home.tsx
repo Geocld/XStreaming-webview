@@ -87,6 +87,11 @@ function Home() {
       if (streamSettings.gamepad_maping) {
         xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
       }
+
+      // Set audio volume
+      if (streamSettings.audio_volume) {
+        xPlayer.setAudioVolume(streamSettings.audio_volume)
+      }
       
       if (streamSettings.streamType === 'xcloud') {
         if (streamSettings.xcloud_bitrate_mode === 'custom' && streamSettings.xcloud_bitrate !== 0) {
@@ -168,6 +173,11 @@ function Home() {
         }
     
         videoStyle!.textContent = css;
+      }
+
+      const adjustVolume = value => {
+        // const audioElement = document.getElementsByTagName('audio')[0]
+        // audioElement.volume = value
       }
 
       const resizePlayer = (prefRatio) => {
@@ -305,7 +315,7 @@ function Home() {
 
                     if (streamSettings.video_format && streamSettings.video_format.indexOf(':') > -1) {
                       resizePlayer(streamSettings.video_format)
-                    }
+                    }                    
 
                     // Start keepalive loop
                     if (!keepaliveInterval.current) {
@@ -379,6 +389,9 @@ function Home() {
           }
           if (type === 'refreshVideo') {
             refreshPlayer(value)
+          }
+          if (type === 'adjustVolume') {
+            adjustVolume(value)
           }
           if (type === 'showPerformance') {
             setShowPerform(true)
