@@ -88,9 +88,10 @@ function Home() {
         xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
       }
 
-      // Set audio volume
-      if (streamSettings.audio_volume) {
-        xPlayer.setAudioVolume(streamSettings.audio_volume)
+      // Set audio volume control
+      if (streamSettings.enable_audio_control) {
+        console.log('enable_audio_control')
+        xPlayer.setAudioControl(streamSettings.enable_audio_control)
       }
       
       if (streamSettings.streamType === 'xcloud') {
@@ -176,8 +177,7 @@ function Home() {
       }
 
       const adjustVolume = value => {
-        // const audioElement = document.getElementsByTagName('audio')[0]
-        // audioElement.volume = value
+        xPlayer.setAudioVolumeDirect(value)
       }
 
       const resizePlayer = (prefRatio) => {
