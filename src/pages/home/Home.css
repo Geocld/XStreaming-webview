@@ -5,8 +5,16 @@
 	bottom: 0;
 	top: 0;
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+  justify-content: center;
   align-items: center;
+}
+
+.loading img {
+	width: 80px;
+}
+.loadingText {
+	color: #107C10;
 }
 
 .performances-v {

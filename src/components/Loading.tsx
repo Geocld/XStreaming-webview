@@ -1,9 +1,12 @@
-import { Spinner } from "@nextui-org/react"
+import loading from '../assets/loading.svg'
 
 const Loading = ({ loadingText }) => {
   return (
     <div className="loading">
-      <Spinner color="success" label={loadingText} labelColor="success" size="lg"/>
+      <div>
+        <img src={loading} alt="" />
+      </div>
+      <div className="loadingText">{loadingText}</div>
     </div>
   )
 }
