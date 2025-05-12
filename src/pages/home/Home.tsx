@@ -88,6 +88,11 @@ function Home() {
         xPlayer.setGamepadMaping(streamSettings.gamepad_maping)
       }
 
+      // Set polling rate
+      if (streamSettings.polling_rate) {
+        xPlayer.setPollRate(streamSettings.polling_rate)
+      }
+
       // Set audio volume control
       if (streamSettings.enable_audio_control) {
         console.log('enable_audio_control')
