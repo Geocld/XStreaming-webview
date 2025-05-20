@@ -25,7 +25,7 @@
     "uuid": "^9.0.1",
     "vconsole": "^3.15.1",
     "webrtc-adapter": "^9.0.1",
-    "xstreaming-player": "0.2.13"
+    "xstreaming-player": "0.2.15"
   },
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
