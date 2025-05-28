@@ -136,6 +136,15 @@ function Home() {
         }
       })
 
+      xPlayer.setSdpHandler((client, offer) => {
+        window.ReactNativeWebView.postMessage(
+            JSON.stringify({
+              type: 'sendChatSdp',
+              message: offer
+            })
+        );
+      })
+
       const getVideoPlayerFilterStyle = (options) => {
         const filters = [];
         const usmMatrix = document.getElementById('filter-usm-matrix')
@@ -403,6 +412,17 @@ function Home() {
           }
           if (type === 'hidePerformance') {
             setShowPerform(false)
+          }
+          if (type === 'sendChatSdpEnd') {
+            xPlayer && xPlayer.setRemoteOffer(value.sdp)
+          }
+          if (type === 'openMicro') {
+            if(xPlayer.getChannelProcessor('chat').isPaused === true) {
+              xPlayer.getChannelProcessor('chat').startMic()
+            }
+          }
+          if (type === 'closeMicro') {
+            xPlayer.getChannelProcessor('chat').stopMic()
           }
         } catch (e) {
           console.log('error:', e)
