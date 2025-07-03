@@ -438,7 +438,22 @@ function Home() {
         }));
       }
     } else {
+      let input_touch = false
+      if (window.ReactNativeWebView) {
+        let streamSettings = window.ReactNativeWebView.injectedObjectJson()
+
+        try {
+          const params = JSON.parse(streamSettings)
+          streamSettings = params.settings || {}
+
+          input_touch = streamSettings.input_touch || false
+        } catch (e) {
+          streamSettings = {}
+        }
+      }
+
       setxPlayer(new xStreamingPlayer('videoHolder', {
+        input_touch,
         ui_systemui: [],
         ui_touchenabled: true,
         input_legacykeyboard: false,
