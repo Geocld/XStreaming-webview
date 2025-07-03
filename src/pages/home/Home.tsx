@@ -440,15 +440,13 @@ function Home() {
     } else {
       let input_touch = false
       if (window.ReactNativeWebView) {
-        let streamSettings = window.ReactNativeWebView.injectedObjectJson()
+        const streamSettings = window.ReactNativeWebView.injectedObjectJson()
 
         try {
           const params = JSON.parse(streamSettings)
-          streamSettings = params.settings || {}
-
-          input_touch = streamSettings.input_touch || false
+          input_touch = params.inputTouch || false
         } catch (e) {
-          streamSettings = {}
+          input_touch = false
         }
       }
 
