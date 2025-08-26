@@ -31,6 +31,7 @@ export default {
     'Refresh': '刷新',
     'Resolution': '解析度',
     RTT: '延遲',
+    JIT: '抖动',
     FPS: '幀數',
     FD: '掉幀',
     PL: '丟包',
