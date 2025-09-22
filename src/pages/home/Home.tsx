@@ -32,8 +32,7 @@ function Home() {
 
   useEffect(() => {
     
-    if (xPlayer !== undefined) {
-      xPlayer.bind()
+    if (xPlayer !== undefined) {      
 
       if (!window.ReactNativeWebView) return
       // Set bitrate
@@ -52,6 +51,19 @@ function Home() {
       if (streamSettings.debug && !vconsole.current) {
         vconsole.current = new VConsole()
       }
+
+      if (streamSettings.server_url && streamSettings.server_username && streamSettings.server_credential) {
+        xPlayer.bind({
+          turnServer: {
+            url: streamSettings.server_url,
+            username: streamSettings.server_username,
+            credential: streamSettings.server_credential
+          }
+        });
+      } else {
+        xPlayer.bind()
+      }
+      
 
       setVideoFormat(streamSettings.video_format || '')
       setPerformanceStyle(streamSettings.performance_style || true)
