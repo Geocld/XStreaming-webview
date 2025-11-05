@@ -107,8 +107,12 @@ function Home() {
 
       // Set audio volume control
       if (streamSettings.enable_audio_control) {
-        console.log('enable_audio_control')
         xPlayer.setAudioControl(streamSettings.enable_audio_control)
+      }
+
+      // Set fsr sharpness
+      if (streamSettings.fsr_sharpness) {
+        xPlayer.setFsrSharpness(streamSettings.fsr_sharpness)
       }
       
       if (streamSettings.streamType === 'xcloud') {
@@ -335,8 +339,34 @@ function Home() {
                     }
 
                     // Refresh video player
-                    if (streamSettings.display_options) {
+                    if (streamSettings.display_options && !streamSettings.fsr) {
+                      console.log(':: Refresh Player')
                       refreshPlayer(streamSettings.display_options)
+                    }
+
+                    // Start FSR
+                    if (streamSettings.fsr) {
+                      setTimeout(() => {
+                        console.log(':: Start FSR')
+                        const videoHolder = document.getElementById("videoHolder");
+                        const canvasContainer = document.getElementById("canvas-container");
+                        try {
+                          xPlayer && xPlayer.startFSR(() => {
+                            videoHolder.style.visibility = 'hidden';
+                            canvasContainer.style.visibility = 'visible'; 
+                            canvasContainer.style.backgroundColor = 'black';
+
+                            window.ReactNativeWebView.postMessage(
+                              JSON.stringify({
+                                type: 'FsrStarted',
+                                message: ''
+                              })
+                            )
+                          })
+                        } catch(e) {
+                          console.log(':: Start FSR failed', e) 
+                        }
+                      }, 3000)
                     }
 
                     if (streamSettings.video_format && streamSettings.video_format.indexOf(':') > -1) {
@@ -383,6 +413,7 @@ function Home() {
                   if(perfInterval.current) {
                     clearInterval(perfInterval.current)
                   }
+
                   setTimeout(() => {
                     window.ReactNativeWebView.postMessage(
                       JSON.stringify({
@@ -400,6 +431,12 @@ function Home() {
             setLoadingText(`${t('Disconnecting...')}`)
             setIsStoped(true)
             xPlayer && xPlayer.close()
+
+            const videoHolder = document.getElementById("videoHolder");
+            const canvasContainer = document.getElementById("canvas-container");
+            videoHolder.style.visibility = 'visible';
+            canvasContainer.style.backgroundColor = 'transparent';
+            canvasContainer.style.visibility = 'hidden';
 
             setTimeout(() => {
               if (window.ReactNativeWebView) {
@@ -557,6 +594,10 @@ function Home() {
 
       <div id="videoHolder" className={videoHolderClass}>
         {/* <video src="https://www.w3schools.com/html/mov_bbb.mp4" autoPlay muted loop playsInline style={{width: '814px', height: '407px', objectFit: 'fill'}}></video> */}
+      </div>
+
+      <div id="canvas-container">
+        <canvas id="canvas"></canvas>
       </div>
 
       <svg id="video-filters" style={{display: 'none'}}><defs><filter id="filter-usm"><feConvolveMatrix id="filter-usm-matrix" order="3"></feConvolveMatrix></filter></defs></svg>
