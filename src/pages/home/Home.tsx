@@ -111,8 +111,8 @@ function Home() {
       }
 
       // Set fsr sharpness
-      if (streamSettings.fsr_sharpness) {
-        xPlayer.setFsrSharpness(streamSettings.fsr_sharpness)
+      if (streamSettings.fsr_display_options) {
+        xPlayer.setFsrSharpness(streamSettings.fsr_display_options.sharpness)
       }
       
       if (streamSettings.streamType === 'xcloud') {
@@ -208,6 +208,10 @@ function Home() {
 
       const adjustVolume = value => {
         xPlayer.setAudioVolumeDirect(value)
+      }
+
+      const adjustSharpness = value => {
+        xPlayer.setFsrSharpnessDynamic(value)
       }
 
       const resizePlayer = (prefRatio) => {
@@ -455,6 +459,9 @@ function Home() {
           }
           if (type === 'adjustVolume') {
             adjustVolume(value)
+          }
+          if (type === 'adjustSharpness') {
+            adjustSharpness(value)
           }
           if (type === 'showPerformance') {
             setShowPerform(true)
