@@ -110,6 +110,11 @@ function Home() {
         xPlayer.setAudioControl(streamSettings.enable_audio_control)
       }
 
+      // Set audio rumble
+      if (streamSettings.enable_audio_rumble) {
+        xPlayer.setAudioRumble(streamSettings.enable_audio_rumble, streamSettings.audio_rumble_threshold / 1000)
+      }
+
       // Set fsr sharpness
       if (streamSettings.fsr_display_options) {
         xPlayer.setFsrSharpness(streamSettings.fsr_display_options.sharpness)
