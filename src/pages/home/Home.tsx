@@ -490,6 +490,20 @@ function Home() {
           if (type === 'closeMicro') {
             xPlayer.getChannelProcessor('chat').stopMic()
           }
+
+          if (type === 'pressNexus') {
+            xPlayer.getChannelProcessor('input').pressButtonStart('Nexus')
+            setTimeout(() => {
+              xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus')
+            }, 150)
+          }
+
+          if (type === 'longPressNexus') {
+            xPlayer.getChannelProcessor('input').pressButtonStart('Nexus')
+            setTimeout(() => {
+              xPlayer.getChannelProcessor('input').pressButtonEnd('Nexus')
+            }, 1000)
+          }
         } catch (e) {
           console.log('error:', e)
         }
