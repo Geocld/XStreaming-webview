@@ -144,6 +144,11 @@ function Home() {
         xPlayer.setAudioBitrate(streamSettings.audio_bitrate);
       }
 
+      // Set co-op
+      if (streamSettings.coop) {
+        xPlayer.setCoOpMode(true)
+      }
+
       xPlayer.setForceTriggerRumble(false)
 
       xPlayer.setConnectFailHandler(() => {
